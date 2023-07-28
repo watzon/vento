@@ -42,17 +42,11 @@ pub fn (ctx Context) request(method string, body string) !string {
 	return resp.body
 }
 
-pub fn (ctx Context) request_multipart[T](method string, params T) !string {
+pub fn (ctx Context) request_multipart(method string, form http.PostMultipartFormConfig) !string {
 	url := os.join_path(ctx.endpoint, "bot${ctx.token}", method)
-	form := ctx.params_to_multipart_form(params)!
-	println(form)
 	resp := http.post_multipart_form(url, form)!
 	if resp.status_code != 200 {
-		return error("HTTP error: ${resp.status_code}")
+		return error("HTTP error: ${resp.status_code} - ${resp.body}")
 	}
 	return resp.body
-}
-
-fn (ctx Context) params_to_multipart_form[T](params T) !http.PostMultipartFormConfig {
-	panic("Not implemented")
 }

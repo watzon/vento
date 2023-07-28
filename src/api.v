@@ -2,8 +2,9 @@
 module main
 
 import json
+import net.http
 
-pub type IntegerOrString = int | string
+pub type IntegerOrString = i64 | string
 
 pub type InputFileOrString = InputFile | string
 
@@ -101,21 +102,21 @@ pub type PassportElementError = PassportElementErrorDataField | PassportElementE
 // At most one of the optional parameters can be present in any given update.
 pub struct Update {
 pub:
-    update_id int
-    message &Message
-    edited_message &Message
-    channel_post &Message
-    edited_channel_post &Message
-    inline_query &InlineQuery
-    chosen_inline_result &ChosenInlineResult
-    callback_query &CallbackQuery
-    shipping_query &ShippingQuery
-    pre_checkout_query &PreCheckoutQuery
-    poll &Poll
-    poll_answer &PollAnswer
-    my_chat_member &ChatMemberUpdated
-    chat_member &ChatMemberUpdated
-    chat_join_request &ChatJoinRequest
+    update_id i64
+    message ?&Message
+    edited_message ?&Message
+    channel_post ?&Message
+    edited_channel_post ?&Message
+    inline_query ?&InlineQuery
+    chosen_inline_result ?&ChosenInlineResult
+    callback_query ?&CallbackQuery
+    shipping_query ?&ShippingQuery
+    pre_checkout_query ?&PreCheckoutQuery
+    poll ?&Poll
+    poll_answer ?&PollAnswer
+    my_chat_member ?&ChatMemberUpdated
+    chat_member ?&ChatMemberUpdated
+    chat_join_request ?&ChatJoinRequest
 }
 
 // Describes the current status of a webhook.
@@ -123,19 +124,19 @@ pub struct WebhookInfo {
 pub:
     url string
     has_custom_certificate bool
-    pending_update_count int
+    pending_update_count i64
     ip_address string
-    last_error_date int
+    last_error_date i64
     last_error_message string
-    last_synchronization_error_date int
-    max_connections int
+    last_synchronization_error_date i64
+    max_connections i64
     allowed_updates []string
 }
 
 // This object represents a Telegram user or bot.
 pub struct User {
 pub:
-    id int
+    id i64
     is_bot bool
     first_name string
     last_name string
@@ -151,14 +152,14 @@ pub:
 // This object represents a chat.
 pub struct Chat {
 pub:
-    id int
+    id i64
     @type string
     title string
     username string
     first_name string
     last_name string
     is_forum bool
-    photo &ChatPhoto
+    photo ?&ChatPhoto
     active_usernames []string
     emoji_status_custom_emoji_id string
     bio string
@@ -168,109 +169,109 @@ pub:
     join_by_request bool
     description string
     invite_link string
-    pinned_message &Message
-    permissions &ChatPermissions
-    slow_mode_delay int
-    message_auto_delete_time int
+    pinned_message ?&Message
+    permissions ?&ChatPermissions
+    slow_mode_delay i64
+    message_auto_delete_time i64
     has_aggressive_anti_spam_enabled bool
     has_hidden_members bool
     has_protected_content bool
     sticker_set_name string
     can_set_sticker_set bool
-    linked_chat_id int
-    location &ChatLocation
+    linked_chat_id i64
+    location ?&ChatLocation
 }
 
 // This object represents a message.
 pub struct Message {
 pub:
-    message_id int
-    message_thread_id int
-    from &User
-    sender_chat &Chat
-    date int
+    message_id i64
+    message_thread_id i64
+    from ?&User
+    sender_chat ?&Chat
+    date i64
     chat &Chat
-    forward_from &User
-    forward_from_chat &Chat
-    forward_from_message_id int
+    forward_from ?&User
+    forward_from_chat ?&Chat
+    forward_from_message_id i64
     forward_signature string
     forward_sender_name string
-    forward_date int
+    forward_date i64
     is_topic_message bool
     is_automatic_forward bool
-    reply_to_message &Message
-    via_bot &User
-    edit_date int
+    reply_to_message ?&Message
+    via_bot ?&User
+    edit_date i64
     has_protected_content bool
     media_group_id string
     author_signature string
     text string
     entities []MessageEntity
-    animation &Animation
-    audio &Audio
-    document &Document
+    animation ?&Animation
+    audio ?&Audio
+    document ?&Document
     photo []PhotoSize
-    sticker &Sticker
-    video &Video
-    video_note &VideoNote
-    voice &Voice
+    sticker ?&Sticker
+    video ?&Video
+    video_note ?&VideoNote
+    voice ?&Voice
     caption string
     caption_entities []MessageEntity
     has_media_spoiler bool
-    contact &Contact
-    dice &Dice
-    game &Game
-    poll &Poll
-    venue &Venue
-    location &Location
+    contact ?&Contact
+    dice ?&Dice
+    game ?&Game
+    poll ?&Poll
+    venue ?&Venue
+    location ?&Location
     new_chat_members []User
-    left_chat_member &User
+    left_chat_member ?&User
     new_chat_title string
     new_chat_photo []PhotoSize
     delete_chat_photo bool
     group_chat_created bool
     supergroup_chat_created bool
     channel_chat_created bool
-    message_auto_delete_timer_changed &MessageAutoDeleteTimerChanged
-    migrate_to_chat_id int
-    migrate_from_chat_id int
-    pinned_message &Message
-    invoice &Invoice
-    successful_payment &SuccessfulPayment
-    user_shared &UserShared
-    chat_shared &ChatShared
+    message_auto_delete_timer_changed ?&MessageAutoDeleteTimerChanged
+    migrate_to_chat_id i64
+    migrate_from_chat_id i64
+    pinned_message ?&Message
+    invoice ?&Invoice
+    successful_payment ?&SuccessfulPayment
+    user_shared ?&UserShared
+    chat_shared ?&ChatShared
     connected_website string
-    write_access_allowed &WriteAccessAllowed
-    passport_data &PassportData
-    proximity_alert_triggered &ProximityAlertTriggered
-    forum_topic_created &ForumTopicCreated
-    forum_topic_edited &ForumTopicEdited
-    forum_topic_closed &ForumTopicClosed
-    forum_topic_reopened &ForumTopicReopened
-    general_forum_topic_hidden &GeneralForumTopicHidden
-    general_forum_topic_unhidden &GeneralForumTopicUnhidden
-    video_chat_scheduled &VideoChatScheduled
-    video_chat_started &VideoChatStarted
-    video_chat_ended &VideoChatEnded
-    video_chat_participants_invited &VideoChatParticipantsInvited
-    web_app_data &WebAppData
-    reply_markup &InlineKeyboardMarkup
+    write_access_allowed ?&WriteAccessAllowed
+    passport_data ?&PassportData
+    proximity_alert_triggered ?&ProximityAlertTriggered
+    forum_topic_created ?&ForumTopicCreated
+    forum_topic_edited ?&ForumTopicEdited
+    forum_topic_closed ?&ForumTopicClosed
+    forum_topic_reopened ?&ForumTopicReopened
+    general_forum_topic_hidden ?&GeneralForumTopicHidden
+    general_forum_topic_unhidden ?&GeneralForumTopicUnhidden
+    video_chat_scheduled ?&VideoChatScheduled
+    video_chat_started ?&VideoChatStarted
+    video_chat_ended ?&VideoChatEnded
+    video_chat_participants_invited ?&VideoChatParticipantsInvited
+    web_app_data ?&WebAppData
+    reply_markup ?&InlineKeyboardMarkup
 }
 
 // This object represents a unique message identifier.
 pub struct MessageId {
 pub:
-    message_id int
+    message_id i64
 }
 
 // This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
 pub struct MessageEntity {
 pub:
     @type string
-    offset int
-    length int
+    offset i64
+    length i64
     url string
-    user &User
+    user ?&User
     language string
     custom_emoji_id string
 }
@@ -280,9 +281,9 @@ pub struct PhotoSize {
 pub:
     file_id string
     file_unique_id string
-    width int
-    height int
-    file_size int
+    width i64
+    height i64
+    file_size i64
 }
 
 // This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
@@ -290,13 +291,13 @@ pub struct Animation {
 pub:
     file_id string
     file_unique_id string
-    width int
-    height int
-    duration int
-    thumbnail &PhotoSize
+    width i64
+    height i64
+    duration i64
+    thumbnail ?&PhotoSize
     file_name string
     mime_type string
-    file_size int
+    file_size i64
 }
 
 // This object represents an audio file to be treated as music by the Telegram clients.
@@ -304,13 +305,13 @@ pub struct Audio {
 pub:
     file_id string
     file_unique_id string
-    duration int
+    duration i64
     performer string
     title string
     file_name string
     mime_type string
-    file_size int
-    thumbnail &PhotoSize
+    file_size i64
+    thumbnail ?&PhotoSize
 }
 
 // This object represents a general file (as opposed to photos, voice messages and audio files).
@@ -318,10 +319,10 @@ pub struct Document {
 pub:
     file_id string
     file_unique_id string
-    thumbnail &PhotoSize
+    thumbnail ?&PhotoSize
     file_name string
     mime_type string
-    file_size int
+    file_size i64
 }
 
 // This object represents a video file.
@@ -329,13 +330,13 @@ pub struct Video {
 pub:
     file_id string
     file_unique_id string
-    width int
-    height int
-    duration int
-    thumbnail &PhotoSize
+    width i64
+    height i64
+    duration i64
+    thumbnail ?&PhotoSize
     file_name string
     mime_type string
-    file_size int
+    file_size i64
 }
 
 // This object represents a video message (available in Telegram apps as of v.4.0).
@@ -343,10 +344,10 @@ pub struct VideoNote {
 pub:
     file_id string
     file_unique_id string
-    length int
-    duration int
-    thumbnail &PhotoSize
-    file_size int
+    length i64
+    duration i64
+    thumbnail ?&PhotoSize
+    file_size i64
 }
 
 // This object represents a voice note.
@@ -354,9 +355,9 @@ pub struct Voice {
 pub:
     file_id string
     file_unique_id string
-    duration int
+    duration i64
     mime_type string
-    file_size int
+    file_size i64
 }
 
 // This object represents a phone contact.
@@ -365,7 +366,7 @@ pub:
     phone_number string
     first_name string
     last_name string
-    user_id int
+    user_id i64
     vcard string
 }
 
@@ -373,14 +374,14 @@ pub:
 pub struct Dice {
 pub:
     emoji string
-    value int
+    value i64
 }
 
 // This object contains information about one answer option in a poll.
 pub struct PollOption {
 pub:
     text string
-    voter_count int
+    voter_count i64
 }
 
 // This object represents an answer of a user in a non-anonymous poll.
@@ -388,7 +389,7 @@ pub struct PollAnswer {
 pub:
     poll_id string
     user &User
-    option_ids []int
+    option_ids []i64
 }
 
 // This object contains information about a poll.
@@ -397,16 +398,16 @@ pub:
     id string
     question string
     options []PollOption
-    total_voter_count int
+    total_voter_count i64
     is_closed bool
     is_anonymous bool
     @type string
     allows_multiple_answers bool
-    correct_option_id int
+    correct_option_id i64
     explanation string
     explanation_entities []MessageEntity
-    open_period int
-    close_date int
+    open_period i64
+    close_date i64
 }
 
 // This object represents a point on the map.
@@ -415,9 +416,9 @@ pub:
     longitude f64
     latitude f64
     horizontal_accuracy f64
-    live_period int
-    heading int
-    proximity_alert_radius int
+    live_period i64
+    heading i64
+    proximity_alert_radius i64
 }
 
 // This object represents a venue.
@@ -445,20 +446,20 @@ pub struct ProximityAlertTriggered {
 pub:
     traveler &User
     watcher &User
-    distance int
+    distance i64
 }
 
 // This object represents a service message about a change in auto-delete timer settings.
 pub struct MessageAutoDeleteTimerChanged {
 pub:
-    message_auto_delete_time int
+    message_auto_delete_time i64
 }
 
 // This object represents a service message about a new forum topic created in the chat.
 pub struct ForumTopicCreated {
 pub:
     name string
-    icon_color int
+    icon_color i64
     icon_custom_emoji_id string
 }
 
@@ -486,16 +487,16 @@ pub struct GeneralForumTopicUnhidden {}
 // KeyboardButtonRequestUser button.
 pub struct UserShared {
 pub:
-    request_id int
-    user_id int
+    request_id i64
+    user_id i64
 }
 
 // This object contains information about the chat whose identifier was shared with the bot using a
 // KeyboardButtonRequestChat button.
 pub struct ChatShared {
 pub:
-    request_id int
-    chat_id int
+    request_id i64
+    chat_id i64
 }
 
 // This object represents a service message about a user allowing a bot to write messages after adding the bot to the
@@ -508,7 +509,7 @@ pub:
 // This object represents a service message about a video chat scheduled in the chat.
 pub struct VideoChatScheduled {
 pub:
-    start_date int
+    start_date i64
 }
 
 // This object represents a service message about a video chat started in the chat. Currently holds no information.
@@ -517,7 +518,7 @@ pub struct VideoChatStarted {}
 // This object represents a service message about a video chat ended in the chat.
 pub struct VideoChatEnded {
 pub:
-    duration int
+    duration i64
 }
 
 // This object represents a service message about new members invited to a video chat.
@@ -529,7 +530,7 @@ pub:
 // This object represent a user's profile pictures.
 pub struct UserProfilePhotos {
 pub:
-    total_count int
+    total_count i64
     photos [][]PhotoSize
 }
 
@@ -541,7 +542,7 @@ pub struct File {
 pub:
     file_id string
     file_unique_id string
-    file_size int
+    file_size i64
     file_path string
 }
 
@@ -576,12 +577,12 @@ pub:
 pub struct KeyboardButton {
 pub:
     text string
-    request_user &KeyboardButtonRequestUser
-    request_chat &KeyboardButtonRequestChat
+    request_user ?&KeyboardButtonRequestUser
+    request_chat ?&KeyboardButtonRequestChat
     request_contact bool
     request_location bool
-    request_poll &KeyboardButtonPollType
-    web_app &WebAppInfo
+    request_poll ?&KeyboardButtonPollType
+    web_app ?&WebAppInfo
 }
 
 // This object defines the criteria used to request a suitable user. The identifier of the selected user will be shared
@@ -589,7 +590,7 @@ pub:
 // https://core.telegram.org/bots/features#chat-and-user-selection
 pub struct KeyboardButtonRequestUser {
 pub:
-    request_id int
+    request_id i64
     user_is_bot bool
     user_is_premium bool
 }
@@ -599,13 +600,13 @@ pub:
 // https://core.telegram.org/bots/features#chat-and-user-selection
 pub struct KeyboardButtonRequestChat {
 pub:
-    request_id int
+    request_id i64
     chat_is_channel bool
     chat_is_forum bool
     chat_has_username bool
     chat_is_created bool
-    user_administrator_rights &ChatAdministratorRights
-    bot_administrator_rights &ChatAdministratorRights
+    user_administrator_rights ?&ChatAdministratorRights
+    bot_administrator_rights ?&ChatAdministratorRights
     bot_is_member bool
 }
 
@@ -640,12 +641,12 @@ pub:
     text string
     url string
     callback_data string
-    web_app &WebAppInfo
-    login_url &LoginUrl
+    web_app ?&WebAppInfo
+    login_url ?&LoginUrl
     switch_inline_query string
     switch_inline_query_current_chat string
-    switch_inline_query_chosen_chat &SwitchInlineQueryChosenChat
-    callback_game &CallbackGame
+    switch_inline_query_chosen_chat ?&SwitchInlineQueryChosenChat
+    callback_game ?&CallbackGame
     pay bool
 }
 
@@ -680,7 +681,7 @@ pub struct CallbackQuery {
 pub:
     id string
     from &User
-    message &Message
+    message ?&Message
     inline_message_id string
     chat_instance string
     data string
@@ -715,9 +716,9 @@ pub:
     is_primary bool
     is_revoked bool
     name string
-    expire_date int
-    member_limit int
-    pending_join_request_count int
+    expire_date i64
+    member_limit i64
+    pending_join_request_count i64
 }
 
 // Represents the rights of an administrator in a chat.
@@ -794,7 +795,7 @@ pub:
     can_invite_users bool
     can_pin_messages bool
     can_manage_topics bool
-    until_date int
+    until_date i64
 }
 
 // Represents a chat member that isn't currently a member of the chat, but may join it themselves.
@@ -809,7 +810,7 @@ pub struct ChatMemberBanned {
 pub:
     status string
     user &User
-    until_date int
+    until_date i64
 }
 
 // This object represents changes in the status of a chat member.
@@ -817,10 +818,10 @@ pub struct ChatMemberUpdated {
 pub:
     chat &Chat
     from &User
-    date int
+    date i64
     old_chat_member &ChatMember
     new_chat_member &ChatMember
-    invite_link &ChatInviteLink
+    invite_link ?&ChatInviteLink
     via_chat_folder_invite_link bool
 }
 
@@ -829,10 +830,10 @@ pub struct ChatJoinRequest {
 pub:
     chat &Chat
     from &User
-    user_chat_id int
-    date int
+    user_chat_id i64
+    date i64
     bio string
-    invite_link &ChatInviteLink
+    invite_link ?&ChatInviteLink
 }
 
 // Describes actions that a non-administrator user is allowed to take in a chat.
@@ -864,9 +865,9 @@ pub:
 // This object represents a forum topic.
 pub struct ForumTopic {
 pub:
-    message_thread_id int
+    message_thread_id i64
     name string
-    icon_color int
+    icon_color i64
     icon_custom_emoji_id string
 }
 
@@ -921,7 +922,7 @@ pub struct BotCommandScopeChatMember {
 pub:
     @type string
     chat_id &IntegerOrString
-    user_id int
+    user_id i64
 }
 
 // This object represents the bot's name.
@@ -965,8 +966,8 @@ pub:
 // Describes why a request was unsuccessful.
 pub struct ResponseParameters {
 pub:
-    migrate_to_chat_id int
-    retry_after int
+    migrate_to_chat_id i64
+    retry_after i64
 }
 
 // Represents a photo to be sent.
@@ -985,13 +986,13 @@ pub struct InputMediaVideo {
 pub:
     @type string = 'video'
     media string
-    thumbnail &InputFileOrString
+    thumbnail ?&InputFileOrString
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    width int
-    height int
-    duration int
+    width i64
+    height i64
+    duration i64
     supports_streaming bool
     has_spoiler bool
 }
@@ -1001,13 +1002,13 @@ pub struct InputMediaAnimation {
 pub:
     @type string = 'animation'
     media string
-    thumbnail &InputFileOrString
+    thumbnail ?&InputFileOrString
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    width int
-    height int
-    duration int
+    width i64
+    height i64
+    duration i64
     has_spoiler bool
 }
 
@@ -1016,11 +1017,11 @@ pub struct InputMediaAudio {
 pub:
     @type string = 'audio'
     media string
-    thumbnail &InputFileOrString
+    thumbnail ?&InputFileOrString
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    duration int
+    duration i64
     performer string
     title string
 }
@@ -1030,7 +1031,7 @@ pub struct InputMediaDocument {
 pub:
     @type string = 'document'
     media string
-    thumbnail &InputFileOrString
+    thumbnail ?&InputFileOrString
     caption string
     parse_mode string
     caption_entities []MessageEntity
@@ -1043,18 +1044,18 @@ pub:
     file_id string
     file_unique_id string
     @type string
-    width int
-    height int
+    width i64
+    height i64
     is_animated bool
     is_video bool
-    thumbnail &PhotoSize
+    thumbnail ?&PhotoSize
     emoji string
     set_name string
-    premium_animation &File
-    mask_position &MaskPosition
+    premium_animation ?&File
+    mask_position ?&MaskPosition
     custom_emoji_id string
     needs_repainting bool
-    file_size int
+    file_size i64
 }
 
 // This object represents a sticker set.
@@ -1066,7 +1067,7 @@ pub:
     is_animated bool
     is_video bool
     stickers []Sticker
-    thumbnail &PhotoSize
+    thumbnail ?&PhotoSize
 }
 
 // This object describes the position on faces where a mask should be placed by default.
@@ -1083,7 +1084,7 @@ pub struct InputSticker {
 pub:
     sticker &InputFileOrString
     emoji_list []string
-    mask_position &MaskPosition
+    mask_position ?&MaskPosition
     keywords []string
 }
 
@@ -1096,7 +1097,7 @@ pub:
     query string
     offset string
     chat_type string
-    location &Location
+    location ?&Location
 }
 
 // This object represents a button to be shown above inline query results. You must use exactly one of the optional
@@ -1104,7 +1105,7 @@ pub:
 pub struct InlineQueryResultsButton {
 pub:
     text string
-    web_app &WebAppInfo
+    web_app ?&WebAppInfo
     start_parameter string
 }
 
@@ -1115,13 +1116,13 @@ pub:
     id string
     title string
     input_message_content &InputMessageContent
-    reply_markup &InlineKeyboardMarkup
+    reply_markup ?&InlineKeyboardMarkup
     url string
     hide_url bool
     description string
     thumbnail_url string
-    thumbnail_width int
-    thumbnail_height int
+    thumbnail_width i64
+    thumbnail_height i64
 }
 
 // Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you
@@ -1132,15 +1133,15 @@ pub:
     id string
     photo_url string
     thumbnail_url string
-    photo_width int
-    photo_height int
+    photo_width i64
+    photo_height i64
     title string
     description string
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional
@@ -1151,17 +1152,17 @@ pub:
     @type string = 'gif'
     id string
     gif_url string
-    gif_width int
-    gif_height int
-    gif_duration int
+    gif_width i64
+    gif_height i64
+    gif_duration i64
     thumbnail_url string
     thumbnail_mime_type string
     title string
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file
@@ -1172,17 +1173,17 @@ pub:
     @type string = 'mpeg4_gif'
     id string
     mpeg4_url string
-    mpeg4_width int
-    mpeg4_height int
-    mpeg4_duration int
+    mpeg4_width i64
+    mpeg4_height i64
+    mpeg4_duration i64
     thumbnail_url string
     thumbnail_mime_type string
     title string
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to a page containing an embedded video player or a video file. By default, this video file will be
@@ -1199,12 +1200,12 @@ pub:
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    video_width int
-    video_height int
-    video_duration int
+    video_width i64
+    video_height i64
+    video_duration i64
     description string
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to an MP3 audio file. By default, this audio file will be sent by the user. Alternatively, you can
@@ -1220,9 +1221,9 @@ pub:
     parse_mode string
     caption_entities []MessageEntity
     performer string
-    audio_duration int
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    audio_duration i64
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be
@@ -1238,9 +1239,9 @@ pub:
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    voice_duration int
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    voice_duration i64
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively,
@@ -1258,11 +1259,11 @@ pub:
     document_url string
     mime_type string
     description string
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
     thumbnail_url string
-    thumbnail_width int
-    thumbnail_height int
+    thumbnail_width i64
+    thumbnail_height i64
 }
 
 // Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use
@@ -1276,14 +1277,14 @@ pub:
     longitude f64
     title string
     horizontal_accuracy f64
-    live_period int
-    heading int
-    proximity_alert_radius int
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    live_period i64
+    heading i64
+    proximity_alert_radius i64
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
     thumbnail_url string
-    thumbnail_width int
-    thumbnail_height int
+    thumbnail_width i64
+    thumbnail_height i64
 }
 
 // Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input_message_content to
@@ -1301,11 +1302,11 @@ pub:
     foursquare_type string
     google_place_id string
     google_place_type string
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
     thumbnail_url string
-    thumbnail_width int
-    thumbnail_height int
+    thumbnail_width i64
+    thumbnail_height i64
 }
 
 // Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use
@@ -1319,11 +1320,11 @@ pub:
     first_name string
     last_name string
     vcard string
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
     thumbnail_url string
-    thumbnail_width int
-    thumbnail_height int
+    thumbnail_width i64
+    thumbnail_height i64
 }
 
 // Represents a Game.
@@ -1334,7 +1335,7 @@ pub:
     @type string = 'game'
     id string
     game_short_name string
-    reply_markup &InlineKeyboardMarkup
+    reply_markup ?&InlineKeyboardMarkup
 }
 
 // Represents a link to a photo stored on the Telegram servers. By default, this photo will be sent by the user with an
@@ -1350,8 +1351,8 @@ pub:
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be
@@ -1366,8 +1367,8 @@ pub:
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to a video animation (H.264/MPEG-4 AVC video without sound) stored on the Telegram servers. By
@@ -1382,8 +1383,8 @@ pub:
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user.
@@ -1396,8 +1397,8 @@ pub:
     @type string = 'sticker'
     id string
     sticker_file_id string
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an
@@ -1414,8 +1415,8 @@ pub:
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the user
@@ -1431,8 +1432,8 @@ pub:
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the
@@ -1448,8 +1449,8 @@ pub:
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the
@@ -1464,8 +1465,8 @@ pub:
     caption string
     parse_mode string
     caption_entities []MessageEntity
-    reply_markup &InlineKeyboardMarkup
-    input_message_content &InputMessageContent
+    reply_markup ?&InlineKeyboardMarkup
+    input_message_content ?&InputMessageContent
 }
 
 // Represents the content of a text message to be sent as the result of an inline query.
@@ -1483,9 +1484,9 @@ pub:
     latitude f64
     longitude f64
     horizontal_accuracy f64
-    live_period int
-    heading int
-    proximity_alert_radius int
+    live_period i64
+    heading i64
+    proximity_alert_radius i64
 }
 
 // Represents the content of a venue message to be sent as the result of an inline query.
@@ -1519,13 +1520,13 @@ pub:
     provider_token string
     currency string
     prices []LabeledPrice
-    max_tip_amount int
-    suggested_tip_amounts []int
+    max_tip_amount i64
+    suggested_tip_amounts []i64
     provider_data string
     photo_url string
-    photo_size int
-    photo_width int
-    photo_height int
+    photo_size i64
+    photo_width i64
+    photo_height i64
     need_name bool
     need_phone_number bool
     need_email bool
@@ -1541,7 +1542,7 @@ pub struct ChosenInlineResult {
 pub:
     result_id string
     from &User
-    location &Location
+    location ?&Location
     inline_message_id string
     query string
 }
@@ -1556,7 +1557,7 @@ pub:
 pub struct LabeledPrice {
 pub:
     label string
-    amount int
+    amount i64
 }
 
 // This object contains basic information about an invoice.
@@ -1566,7 +1567,7 @@ pub:
     description string
     start_parameter string
     currency string
-    total_amount int
+    total_amount i64
 }
 
 // This object represents a shipping address.
@@ -1586,7 +1587,7 @@ pub:
     name string
     phone_number string
     email string
-    shipping_address &ShippingAddress
+    shipping_address ?&ShippingAddress
 }
 
 // This object represents one shipping option.
@@ -1601,10 +1602,10 @@ pub:
 pub struct SuccessfulPayment {
 pub:
     currency string
-    total_amount int
+    total_amount i64
     invoice_payload string
     shipping_option_id string
-    order_info &OrderInfo
+    order_info ?&OrderInfo
     telegram_payment_charge_id string
     provider_payment_charge_id string
 }
@@ -1624,10 +1625,10 @@ pub:
     id string
     from &User
     currency string
-    total_amount int
+    total_amount i64
     invoice_payload string
     shipping_option_id string
-    order_info &OrderInfo
+    order_info ?&OrderInfo
 }
 
 // Describes Telegram Passport data shared with the bot by the user.
@@ -1643,8 +1644,8 @@ pub struct PassportFile {
 pub:
     file_id string
     file_unique_id string
-    file_size int
-    file_date int
+    file_size i64
+    file_date i64
 }
 
 // Describes documents or other Telegram Passport elements shared with the bot by the user.
@@ -1655,9 +1656,9 @@ pub:
     phone_number string
     email string
     files []PassportFile
-    front_side &PassportFile
-    reverse_side &PassportFile
-    selfie &PassportFile
+    front_side ?&PassportFile
+    reverse_side ?&PassportFile
+    selfie ?&PassportFile
     translation []PassportFile
     hash string
 }
@@ -1770,7 +1771,7 @@ pub:
     photo []PhotoSize
     text string
     text_entities []MessageEntity
-    animation &Animation
+    animation ?&Animation
 }
 
 // A placeholder, currently holds no information. Use BotFather to set up your game.
@@ -1779,18 +1780,37 @@ pub struct CallbackGame {}
 // This object represents one row of the high scores table for a game.
 pub struct GameHighScore {
 pub:
-    position int
+    position i64
     user &User
-    score int
+    score i64
 }
 
 // Params for the `get_updates` function.
+[params]
 pub struct GetUpdatesParams {
 pub mut:
-    offset int
-    limit int
-    timeout int
+    // Identifier of the first update to be returned. Must be greater by one than the highest among the identifiers of
+    // previously received updates. By default, updates starting with the earliest unconfirmed update are returned. An
+    // update is considered confirmed as soon as getUpdates is called with an offset higher than its update_id. The
+    // negative offset can be specified to retrieve updates starting from -offset update from the end of the
+    // updates queue. All previous updates will be forgotten.
+    offset i64
+
+    // Limits the number of updates to be retrieved. Values between 1-100 are accepted. Defaults to 100.
+    limit i64
+
+    // Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive, short polling should
+    // be used for testing purposes only.
+    timeout i64
+
+    // A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message",
+    // "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a
+    // complete list of available update types. Specify an empty list to receive all update types except
+    // chat_member (default). If not specified, the previous setting will be used. Please note that this
+    // parameter doesn't affect updates created before the call to the getUpdates, so unwanted updates
+    // may be received for a short period of time.
     allowed_updates []string
+
 }
 
 // Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -1802,15 +1822,39 @@ pub fn (ctx Context) get_updates(params GetUpdatesParams) ![]Update {
 }
 
 // Params for the `set_webhook` function.
+[params]
 pub struct SetWebhookParams {
 pub mut:
+    // HTTPS URL to send updates to. Use an empty string to remove webhook integration
     url string [required]
+
+    // Upload your public key certificate so that the root certificate in use can be checked. See our self-signed guide for
+    // details.
     certificate InputFile
+
+    // The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS
     ip_address string
-    max_connections int
+
+    // The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40.
+    // Use lower values to limit the load on your bot's server, and higher values to increase your bot's throughput.
+    max_connections i64
+
+    // A JSON-serialized list of the update types you want your bot to receive. For example, specify ["message",
+    // "edited_channel_post", "callback_query"] to only receive updates of these types. See Update for a
+    // complete list of available update types. Specify an empty list to receive all update types except
+    // chat_member (default). If not specified, the previous setting will be used. Please note that this
+    // parameter doesn't affect updates created before the call to the setWebhook, so unwanted updates
+    // may be received for a short period of time.
     allowed_updates []string
+
+    // Pass True to drop all pending updates
     drop_pending_updates bool
+
+    // A secret token to be sent in a header "X-Telegram-Bot-Api-Secret-Token" in every webhook request, 1-256 characters.
+    // Only characters A-Z, a-z, 0-9, _ and - are allowed. The header is useful to ensure that the request comes from a
+    // webhook set by you.
     secret_token string
+
 }
 
 // Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for
@@ -1819,15 +1863,37 @@ pub mut:
 // If you'd like to make sure that the webhook was set by you, you can specify secret data in the parameter secret_token.
 // If specified, the request will contain a header "X-Telegram-Bot-Api-Secret-Token" with the secret token as content.
 pub fn (ctx Context) set_webhook(params SetWebhookParams) !bool {
-    mut raw_json := ctx.request_multipart("setWebhook", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "url": params.url,
+            "ip_address": params.ip_address,
+            "max_connections": params.max_connections.str(),
+            "allowed_updates": params.allowed_updates.str(),
+            "drop_pending_updates": params.drop_pending_updates.str(),
+            "secret_token": params.secret_token,
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    form.files[key] << http.FileData{
+        filename: params.certificate.filename,
+        content_type: params.certificate.content_type,
+        data: params.certificate.data,
+    }
+
+    mut raw_json := ctx.request_multipart("setWebhook", form)!
     res := json.decode(ApiResponse[bool], raw_json)!
     return res.result
 }
 
 // Params for the `delete_webhook` function.
+[params]
 pub struct DeleteWebhookParams {
 pub mut:
+    // Pass True to drop all pending updates
     drop_pending_updates bool
+
 }
 
 // Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
@@ -1879,19 +1945,43 @@ pub fn (ctx Context) close() !bool {
 }
 
 // Params for the `send_message` function.
+[params]
 pub struct SendMessageParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Text of the message to be sent, 1-4096 characters after entities parsing
     text string [required]
+
+    // Mode for parsing entities in the message text. See formatting options for more details.
     parse_mode string
+
+    // A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
     entities []MessageEntity
+
+    // Disables link previews for links in this message
     disable_web_page_preview bool
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send text messages. On success, the sent Message is returned.
@@ -1903,14 +1993,27 @@ pub fn (ctx Context) send_message(params SendMessageParams) !Message {
 }
 
 // Params for the `forward_message` function.
+[params]
 pub struct ForwardMessageParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
     from_chat_id IntegerOrString [required]
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the forwarded message from forwarding and saving
     protect_content bool
-    message_id int [required]
+
+    // Message identifier in the chat specified in from_chat_id
+    message_id i64 [required]
+
 }
 
 // Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is
@@ -1923,20 +2026,46 @@ pub fn (ctx Context) forward_message(params ForwardMessageParams) !Message {
 }
 
 // Params for the `copy_message` function.
+[params]
 pub struct CopyMessageParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
     from_chat_id IntegerOrString [required]
-    message_id int [required]
+
+    // Message identifier in the chat specified in from_chat_id
+    message_id i64 [required]
+
+    // New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept
     caption string
+
+    // Mode for parsing entities in the new caption. See formatting options for more details.
     parse_mode string
+
+    // A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
     caption_entities []MessageEntity
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. A quiz poll can be
@@ -1951,47 +2080,142 @@ pub fn (ctx Context) copy_message(params CopyMessageParams) !MessageId {
 }
 
 // Params for the `send_photo` function.
+[params]
 pub struct SendPhotoParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP
+    // URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The
+    // photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height
+    // ratio must be at most 20. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     photo InputFileOrString [required]
+
+    // Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
     caption string
+
+    // Mode for parsing entities in the photo caption. See formatting options for more details.
     parse_mode string
+
+    // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     caption_entities []MessageEntity
+
+    // Pass True if the photo needs to be covered with a spoiler animation
     has_spoiler bool
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send photos. On success, the sent Message is returned.
 pub fn (ctx Context) send_photo(params SendPhotoParams) !Message {
-    mut raw_json := ctx.request_multipart("sendPhoto", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "chat_id": json.encode(params.chat_id),
+            "message_thread_id": params.message_thread_id.str(),
+            "caption": params.caption,
+            "parse_mode": params.parse_mode,
+            "caption_entities": params.caption_entities.str(),
+            "has_spoiler": params.has_spoiler.str(),
+            "disable_notification": params.disable_notification.str(),
+            "protect_content": params.protect_content.str(),
+            "reply_to_message_id": params.reply_to_message_id.str(),
+            "allow_sending_without_reply": params.allow_sending_without_reply.str(),
+            "reply_markup": json.encode(params.reply_markup),
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    if params.photo is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.photo.filename,
+            content_type: params.photo.content_type,
+            data: params.photo.data,
+        }
+    } else {
+        form.form["photo"] = params.photo as string
+    }
+
+    mut raw_json := ctx.request_multipart("sendPhoto", form)!
     res := json.decode(ApiResponse[Message], raw_json)!
     return res.result
 }
 
 // Params for the `send_audio` function.
+[params]
 pub struct SendAudioParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Audio file to send. Pass a file_id as String to send an audio file that exists on the Telegram servers (recommended),
+    // pass an HTTP URL as a String for Telegram to get an audio file from the Internet, or upload a new one using
+    // multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     audio InputFileOrString [required]
+
+    // Audio caption, 0-1024 characters after entities parsing
     caption string
+
+    // Mode for parsing entities in the audio caption. See formatting options for more details.
     parse_mode string
+
+    // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     caption_entities []MessageEntity
-    duration int
+
+    // Duration of the audio in seconds
+    duration i64
+
+    // Performer
     performer string
+
+    // Track name
     title string
+
+    // Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail
+    // should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if
+    // the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file,
+    // so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
+    // <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     thumbnail InputFileOrString
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must
@@ -1999,112 +2223,417 @@ pub mut:
 // 50 MB in size, this limit may be changed in the future.
 // For sending voice messages, use the sendVoice method instead.
 pub fn (ctx Context) send_audio(params SendAudioParams) !Message {
-    mut raw_json := ctx.request_multipart("sendAudio", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "chat_id": json.encode(params.chat_id),
+            "message_thread_id": params.message_thread_id.str(),
+            "caption": params.caption,
+            "parse_mode": params.parse_mode,
+            "caption_entities": params.caption_entities.str(),
+            "duration": params.duration.str(),
+            "performer": params.performer,
+            "title": params.title,
+            "disable_notification": params.disable_notification.str(),
+            "protect_content": params.protect_content.str(),
+            "reply_to_message_id": params.reply_to_message_id.str(),
+            "allow_sending_without_reply": params.allow_sending_without_reply.str(),
+            "reply_markup": json.encode(params.reply_markup),
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    if params.audio is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.audio.filename,
+            content_type: params.audio.content_type,
+            data: params.audio.data,
+        }
+    } else {
+        form.form["audio"] = params.audio as string
+    }
+
+    if params.thumbnail is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.thumbnail.filename,
+            content_type: params.thumbnail.content_type,
+            data: params.thumbnail.data,
+        }
+    } else {
+        form.form["thumbnail"] = params.thumbnail as string
+    }
+
+    mut raw_json := ctx.request_multipart("sendAudio", form)!
     res := json.decode(ApiResponse[Message], raw_json)!
     return res.result
 }
 
 // Params for the `send_document` function.
+[params]
 pub struct SendDocumentParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // File to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP
+    // URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More
+    // information on Sending Files: https://core.telegram.org/bots/api#sending-files
     document InputFileOrString [required]
+
+    // Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail
+    // should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if
+    // the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file,
+    // so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
+    // <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     thumbnail InputFileOrString
+
+    // Document caption (may also be used when resending documents by file_id), 0-1024 characters after entities parsing
     caption string
+
+    // Mode for parsing entities in the document caption. See formatting options for more details.
     parse_mode string
+
+    // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     caption_entities []MessageEntity
+
+    // Disables automatic server-side content type detection for files uploaded using multipart/form-data
     disable_content_type_detection bool
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any
 // type of up to 50 MB in size, this limit may be changed in the future.
 pub fn (ctx Context) send_document(params SendDocumentParams) !Message {
-    mut raw_json := ctx.request_multipart("sendDocument", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "chat_id": json.encode(params.chat_id),
+            "message_thread_id": params.message_thread_id.str(),
+            "caption": params.caption,
+            "parse_mode": params.parse_mode,
+            "caption_entities": params.caption_entities.str(),
+            "disable_content_type_detection": params.disable_content_type_detection.str(),
+            "disable_notification": params.disable_notification.str(),
+            "protect_content": params.protect_content.str(),
+            "reply_to_message_id": params.reply_to_message_id.str(),
+            "allow_sending_without_reply": params.allow_sending_without_reply.str(),
+            "reply_markup": json.encode(params.reply_markup),
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    if params.document is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.document.filename,
+            content_type: params.document.content_type,
+            data: params.document.data,
+        }
+    } else {
+        form.form["document"] = params.document as string
+    }
+
+    if params.thumbnail is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.thumbnail.filename,
+            content_type: params.thumbnail.content_type,
+            data: params.thumbnail.data,
+        }
+    } else {
+        form.form["thumbnail"] = params.thumbnail as string
+    }
+
+    mut raw_json := ctx.request_multipart("sendDocument", form)!
     res := json.decode(ApiResponse[Message], raw_json)!
     return res.result
 }
 
 // Params for the `send_video` function.
+[params]
 pub struct SendVideoParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP
+    // URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More
+    // information on Sending Files: https://core.telegram.org/bots/api#sending-files
     video InputFileOrString [required]
-    duration int
-    width int
-    height int
+
+    // Duration of sent video in seconds
+    duration i64
+
+    // Video width
+    width i64
+
+    // Video height
+    height i64
+
+    // Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail
+    // should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if
+    // the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file,
+    // so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
+    // <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     thumbnail InputFileOrString
+
+    // Video caption (may also be used when resending videos by file_id), 0-1024 characters after entities parsing
     caption string
+
+    // Mode for parsing entities in the video caption. See formatting options for more details.
     parse_mode string
+
+    // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     caption_entities []MessageEntity
+
+    // Pass True if the video needs to be covered with a spoiler animation
     has_spoiler bool
+
+    // Pass True if the uploaded video is suitable for streaming
     supports_streaming bool
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as Document). On
 // success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be
 // changed in the future.
 pub fn (ctx Context) send_video(params SendVideoParams) !Message {
-    mut raw_json := ctx.request_multipart("sendVideo", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "chat_id": json.encode(params.chat_id),
+            "message_thread_id": params.message_thread_id.str(),
+            "duration": params.duration.str(),
+            "width": params.width.str(),
+            "height": params.height.str(),
+            "caption": params.caption,
+            "parse_mode": params.parse_mode,
+            "caption_entities": params.caption_entities.str(),
+            "has_spoiler": params.has_spoiler.str(),
+            "supports_streaming": params.supports_streaming.str(),
+            "disable_notification": params.disable_notification.str(),
+            "protect_content": params.protect_content.str(),
+            "reply_to_message_id": params.reply_to_message_id.str(),
+            "allow_sending_without_reply": params.allow_sending_without_reply.str(),
+            "reply_markup": json.encode(params.reply_markup),
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    if params.video is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.video.filename,
+            content_type: params.video.content_type,
+            data: params.video.data,
+        }
+    } else {
+        form.form["video"] = params.video as string
+    }
+
+    if params.thumbnail is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.thumbnail.filename,
+            content_type: params.thumbnail.content_type,
+            data: params.thumbnail.data,
+        }
+    } else {
+        form.form["thumbnail"] = params.thumbnail as string
+    }
+
+    mut raw_json := ctx.request_multipart("sendVideo", form)!
     res := json.decode(ApiResponse[Message], raw_json)!
     return res.result
 }
 
 // Params for the `send_animation` function.
+[params]
 pub struct SendAnimationParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended),
+    // pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using
+    // multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     animation InputFileOrString [required]
-    duration int
-    width int
-    height int
+
+    // Duration of sent animation in seconds
+    duration i64
+
+    // Animation width
+    width i64
+
+    // Animation height
+    height i64
+
+    // Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail
+    // should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if
+    // the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file,
+    // so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
+    // <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     thumbnail InputFileOrString
+
+    // Animation caption (may also be used when resending animation by file_id), 0-1024 characters after entities parsing
     caption string
+
+    // Mode for parsing entities in the animation caption. See formatting options for more details.
     parse_mode string
+
+    // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     caption_entities []MessageEntity
+
+    // Pass True if the animation needs to be covered with a spoiler animation
     has_spoiler bool
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent Message is
 // returned. Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
 pub fn (ctx Context) send_animation(params SendAnimationParams) !Message {
-    mut raw_json := ctx.request_multipart("sendAnimation", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "chat_id": json.encode(params.chat_id),
+            "message_thread_id": params.message_thread_id.str(),
+            "duration": params.duration.str(),
+            "width": params.width.str(),
+            "height": params.height.str(),
+            "caption": params.caption,
+            "parse_mode": params.parse_mode,
+            "caption_entities": params.caption_entities.str(),
+            "has_spoiler": params.has_spoiler.str(),
+            "disable_notification": params.disable_notification.str(),
+            "protect_content": params.protect_content.str(),
+            "reply_to_message_id": params.reply_to_message_id.str(),
+            "allow_sending_without_reply": params.allow_sending_without_reply.str(),
+            "reply_markup": json.encode(params.reply_markup),
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    if params.animation is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.animation.filename,
+            content_type: params.animation.content_type,
+            data: params.animation.data,
+        }
+    } else {
+        form.form["animation"] = params.animation as string
+    }
+
+    if params.thumbnail is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.thumbnail.filename,
+            content_type: params.thumbnail.content_type,
+            data: params.thumbnail.data,
+        }
+    } else {
+        form.form["thumbnail"] = params.thumbnail as string
+    }
+
+    mut raw_json := ctx.request_multipart("sendAnimation", form)!
     res := json.decode(ApiResponse[Message], raw_json)!
     return res.result
 }
 
 // Params for the `send_voice` function.
+[params]
 pub struct SendVoiceParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an
+    // HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More
+    // information on Sending Files: https://core.telegram.org/bots/api#sending-files
     voice InputFileOrString [required]
+
+    // Voice message caption, 0-1024 characters after entities parsing
     caption string
+
+    // Mode for parsing entities in the voice message caption. See formatting options for more details.
     parse_mode string
+
+    // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     caption_entities []MessageEntity
-    duration int
+
+    // Duration of the voice message in seconds
+    duration i64
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For
@@ -2112,45 +2641,155 @@ pub mut:
 // On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit
 // may be changed in the future.
 pub fn (ctx Context) send_voice(params SendVoiceParams) !Message {
-    mut raw_json := ctx.request_multipart("sendVoice", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "chat_id": json.encode(params.chat_id),
+            "message_thread_id": params.message_thread_id.str(),
+            "caption": params.caption,
+            "parse_mode": params.parse_mode,
+            "caption_entities": params.caption_entities.str(),
+            "duration": params.duration.str(),
+            "disable_notification": params.disable_notification.str(),
+            "protect_content": params.protect_content.str(),
+            "reply_to_message_id": params.reply_to_message_id.str(),
+            "allow_sending_without_reply": params.allow_sending_without_reply.str(),
+            "reply_markup": json.encode(params.reply_markup),
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    if params.voice is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.voice.filename,
+            content_type: params.voice.content_type,
+            data: params.voice.data,
+        }
+    } else {
+        form.form["voice"] = params.voice as string
+    }
+
+    mut raw_json := ctx.request_multipart("sendVoice", form)!
     res := json.decode(ApiResponse[Message], raw_json)!
     return res.result
 }
 
 // Params for the `send_video_note` function.
+[params]
 pub struct SendVideoNoteParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or
+    // upload a new video using multipart/form-data. More information on Sending Files:
+    // https://core.telegram.org/bots/api#sending-files. Sending video notes by a URL
+    // is currently unsupported
     video_note InputFileOrString [required]
-    duration int
-    length int
+
+    // Duration of sent video in seconds
+    duration i64
+
+    // Video width and height, i.e. diameter of the video message
+    length i64
+
+    // Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail
+    // should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if
+    // the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file,
+    // so you can pass "attach://<file_attach_name>" if the thumbnail was uploaded using multipart/form-data under
+    // <file_attach_name>. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     thumbnail InputFileOrString
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // As of v.4.0, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video
 // messages. On success, the sent Message is returned.
 pub fn (ctx Context) send_video_note(params SendVideoNoteParams) !Message {
-    mut raw_json := ctx.request_multipart("sendVideoNote", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "chat_id": json.encode(params.chat_id),
+            "message_thread_id": params.message_thread_id.str(),
+            "duration": params.duration.str(),
+            "length": params.length.str(),
+            "disable_notification": params.disable_notification.str(),
+            "protect_content": params.protect_content.str(),
+            "reply_to_message_id": params.reply_to_message_id.str(),
+            "allow_sending_without_reply": params.allow_sending_without_reply.str(),
+            "reply_markup": json.encode(params.reply_markup),
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    if params.video_note is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.video_note.filename,
+            content_type: params.video_note.content_type,
+            data: params.video_note.data,
+        }
+    } else {
+        form.form["video_note"] = params.video_note as string
+    }
+
+    if params.thumbnail is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.thumbnail.filename,
+            content_type: params.thumbnail.content_type,
+            data: params.thumbnail.data,
+        }
+    } else {
+        form.form["thumbnail"] = params.thumbnail as string
+    }
+
+    mut raw_json := ctx.request_multipart("sendVideoNote", form)!
     res := json.decode(ApiResponse[Message], raw_json)!
     return res.result
 }
 
 // Params for the `send_media_group` function.
+[params]
 pub struct SendMediaGroupParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // A JSON-serialized array describing messages to be sent, must include 2-10 items
     media []InputMediaAudioOrInputMediaDocumentOrInputMediaPhotoOrInputMediaVideo [required]
+
+    // Sends messages silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent messages from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the messages are a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
 }
 
 // Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be
@@ -2164,21 +2803,50 @@ pub fn (ctx Context) send_media_group(params SendMediaGroupParams) ![]Message {
 }
 
 // Params for the `send_location` function.
+[params]
 pub struct SendLocationParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Latitude of the location
     latitude f64 [required]
+
+    // Longitude of the location
     longitude f64 [required]
+
+    // The radius of uncertainty for the location, measured in meters; 0-1500
     horizontal_accuracy f64
-    live_period int
-    heading int
-    proximity_alert_radius int
+
+    // Period in seconds for which the location will be updated (see Live Locations, should be between 60 and 86400.
+    live_period i64
+
+    // For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
+    heading i64
+
+    // For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be
+    // between 1 and 100000 if specified.
+    proximity_alert_radius i64
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send point on the map. On success, the sent Message is returned.
@@ -2190,23 +2858,56 @@ pub fn (ctx Context) send_location(params SendLocationParams) !Message {
 }
 
 // Params for the `send_venue` function.
+[params]
 pub struct SendVenueParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Latitude of the venue
     latitude f64 [required]
+
+    // Longitude of the venue
     longitude f64 [required]
+
+    // Name of the venue
     title string [required]
+
+    // Address of the venue
     address string [required]
+
+    // Foursquare identifier of the venue
     foursquare_id string
+
+    // Foursquare type of the venue, if known. (For example, "arts_entertainment/default", "arts_entertainment/aquarium" or
+    // "food/icecream".)
     foursquare_type string
+
+    // Google Places identifier of the venue
     google_place_id string
+
+    // Google Places type of the venue. (See supported types.)
     google_place_type string
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send information about a venue. On success, the sent Message is returned.
@@ -2218,19 +2919,43 @@ pub fn (ctx Context) send_venue(params SendVenueParams) !Message {
 }
 
 // Params for the `send_contact` function.
+[params]
 pub struct SendContactParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Contact's phone number
     phone_number string [required]
+
+    // Contact's first name
     first_name string [required]
+
+    // Contact's last name
     last_name string
+
+    // Additional data about the contact in the form of a vCard, 0-2048 bytes
     vcard string
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send phone contacts. On success, the sent Message is returned.
@@ -2242,27 +2967,70 @@ pub fn (ctx Context) send_contact(params SendContactParams) !Message {
 }
 
 // Params for the `send_poll` function.
+[params]
 pub struct SendPollParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Poll question, 1-300 characters
     question string [required]
+
+    // A JSON-serialized list of answer options, 2-10 strings 1-100 characters each
     options []string [required]
+
+    // True, if the poll needs to be anonymous, defaults to True
     is_anonymous bool
+
+    // Poll type, "quiz" or "regular", defaults to "regular"
     @type string
+
+    // True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
     allows_multiple_answers bool
-    correct_option_id int
+
+    // 0-based identifier of the correct answer option, required for polls in quiz mode
+    correct_option_id i64
+
+    // Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200
+    // characters with at most 2 line feeds after entities parsing
     explanation string
+
+    // Mode for parsing entities in the explanation. See formatting options for more details.
     explanation_parse_mode string
+
+    // A JSON-serialized list of special entities that appear in the poll explanation, which can be specified instead of
+    // parse_mode
     explanation_entities []MessageEntity
-    open_period int
-    close_date int
+
+    // Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date.
+    open_period i64
+
+    // Point in time (Unix timestamp) when the poll will be automatically closed. Must be at least 5 and no more than 600
+    // seconds in the future. Can't be used together with open_period.
+    close_date i64
+
+    // Pass True if the poll needs to be immediately closed. This can be useful for poll preview.
     is_closed bool
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send a native poll. On success, the sent Message is returned.
@@ -2274,16 +3042,36 @@ pub fn (ctx Context) send_poll(params SendPollParams) !Message {
 }
 
 // Params for the `send_dice` function.
+[params]
 pub struct SendDiceParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Emoji on which the dice throw animation is based. Currently, must be one of "🎲", "🎯", "🏀", "⚽", "🎳", or
+    // "🎰". Dice can have values 1-6 for "🎲", "🎯" and "🎳", values 1-5 for "🏀" and "⚽", and values 1-64 for
+    // "🎰". Defaults to "🎲"
     emoji string
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
@@ -2295,11 +3083,21 @@ pub fn (ctx Context) send_dice(params SendDiceParams) !Message {
 }
 
 // Params for the `send_chat_action` function.
+[params]
 pub struct SendChatActionParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread; supergroups only
+    message_thread_id i64
+
+    // Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages,
+    // upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes,
+    // upload_document for general files, choose_sticker for stickers, find_location for location data,
+    // record_video_note or upload_video_note for video notes.
     action string [required]
+
 }
 
 // Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5
@@ -2314,11 +3112,18 @@ pub fn (ctx Context) send_chat_action(params SendChatActionParams) !bool {
 }
 
 // Params for the `get_user_profile_photos` function.
+[params]
 pub struct GetUserProfilePhotosParams {
 pub mut:
-    user_id int [required]
-    offset int
-    limit int
+    // Unique identifier of the target user
+    user_id i64 [required]
+
+    // Sequential number of the first photo to be returned. By default, all photos are returned.
+    offset i64
+
+    // Limits the number of photos to be retrieved. Values between 1-100 are accepted. Defaults to 100.
+    limit i64
+
 }
 
 // Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
@@ -2330,9 +3135,12 @@ pub fn (ctx Context) get_user_profile_photos(params GetUserProfilePhotosParams) 
 }
 
 // Params for the `get_file` function.
+[params]
 pub struct GetFileParams {
 pub mut:
+    // File identifier to get information about
     file_id string [required]
+
 }
 
 // Use this method to get basic information about a file and prepare it for downloading. For the moment, bots can download
@@ -2350,12 +3158,23 @@ pub fn (ctx Context) get_file(params GetFileParams) !File {
 }
 
 // Params for the `ban_chat_member` function.
+[params]
 pub struct BanChatMemberParams {
 pub mut:
+    // Unique identifier for the target group or username of the target supergroup or channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    user_id int [required]
-    until_date int
+
+    // Unique identifier of the target user
+    user_id i64 [required]
+
+    // Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from
+    // the current time they are considered to be banned forever. Applied for supergroups and channels only.
+    until_date i64
+
+    // Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to
+    // see messages in the group that were sent before the user was removed. Always True for supergroups and channels.
     revoke_messages bool
+
 }
 
 // Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user
@@ -2370,11 +3189,18 @@ pub fn (ctx Context) ban_chat_member(params BanChatMemberParams) !bool {
 }
 
 // Params for the `unban_chat_member` function.
+[params]
 pub struct UnbanChatMemberParams {
 pub mut:
+    // Unique identifier for the target group or username of the target supergroup or channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    user_id int [required]
+
+    // Unique identifier of the target user
+    user_id i64 [required]
+
+    // Do nothing if the user is not banned
     only_if_banned bool
+
 }
 
 // Use this method to unban a previously banned user in a supergroup or channel. The user will not return to the group or
@@ -2390,13 +3216,29 @@ pub fn (ctx Context) unban_chat_member(params UnbanChatMemberParams) !bool {
 }
 
 // Params for the `restrict_chat_member` function.
+[params]
 pub struct RestrictChatMemberParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
-    user_id int [required]
+
+    // Unique identifier of the target user
+    user_id i64 [required]
+
+    // A JSON-serialized object for new user permissions
     permissions ChatPermissions [required]
+
+    // Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and
+    // can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios,
+    // can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and
+    // can_send_voice_notes permissions; the can_send_polls permission will imply the
+    // can_send_messages permission.
     use_independent_chat_permissions bool
-    until_date int
+
+    // Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less
+    // than 30 seconds from the current time, they are considered to be restricted forever
+    until_date i64
+
 }
 
 // Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work
@@ -2410,22 +3252,55 @@ pub fn (ctx Context) restrict_chat_member(params RestrictChatMemberParams) !bool
 }
 
 // Params for the `promote_chat_member` function.
+[params]
 pub struct PromoteChatMemberParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    user_id int [required]
+
+    // Unique identifier of the target user
+    user_id i64 [required]
+
+    // Pass True if the administrator's presence in the chat is hidden
     is_anonymous bool
+
+    // Pass True if the administrator can access the chat event log, chat statistics, message statistics in channels, see
+    // channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other
+    // administrator privilege
     can_manage_chat bool
+
+    // Pass True if the administrator can create channel posts, channels only
     can_post_messages bool
+
+    // Pass True if the administrator can edit messages of other users and can pin messages, channels only
     can_edit_messages bool
+
+    // Pass True if the administrator can delete messages of other users
     can_delete_messages bool
+
+    // Pass True if the administrator can manage video chats
     can_manage_video_chats bool
+
+    // Pass True if the administrator can restrict, ban or unban chat members
     can_restrict_members bool
+
+    // Pass True if the administrator can add new administrators with a subset of their own privileges or demote
+    // administrators that they have promoted, directly or indirectly (promoted by administrators that were
+    // appointed by him)
     can_promote_members bool
+
+    // Pass True if the administrator can change chat title, photo and other settings
     can_change_info bool
+
+    // Pass True if the administrator can invite new users to the chat
     can_invite_users bool
+
+    // Pass True if the administrator can pin messages, supergroups only
     can_pin_messages bool
+
+    // Pass True if the user is allowed to create, rename, close, and reopen forum topics, supergroups only
     can_manage_topics bool
+
 }
 
 // Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat
@@ -2439,11 +3314,18 @@ pub fn (ctx Context) promote_chat_member(params PromoteChatMemberParams) !bool {
 }
 
 // Params for the `set_chat_administrator_custom_title` function.
+[params]
 pub struct SetChatAdministratorCustomTitleParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
-    user_id int [required]
+
+    // Unique identifier of the target user
+    user_id i64 [required]
+
+    // New custom title for the administrator; 0-16 characters, emoji are not allowed
     custom_title string [required]
+
 }
 
 // Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on
@@ -2456,10 +3338,15 @@ pub fn (ctx Context) set_chat_administrator_custom_title(params SetChatAdministr
 }
 
 // Params for the `ban_chat_sender_chat` function.
+[params]
 pub struct BanChatSenderChatParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    sender_chat_id int [required]
+
+    // Unique identifier of the target sender chat
+    sender_chat_id i64 [required]
+
 }
 
 // Use this method to ban a channel chat in a supergroup or a channel. Until the chat is unbanned, the owner of the banned
@@ -2474,10 +3361,15 @@ pub fn (ctx Context) ban_chat_sender_chat(params BanChatSenderChatParams) !bool 
 }
 
 // Params for the `unban_chat_sender_chat` function.
+[params]
 pub struct UnbanChatSenderChatParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    sender_chat_id int [required]
+
+    // Unique identifier of the target sender chat
+    sender_chat_id i64 [required]
+
 }
 
 // Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be an administrator
@@ -2490,11 +3382,22 @@ pub fn (ctx Context) unban_chat_sender_chat(params UnbanChatSenderChatParams) !b
 }
 
 // Params for the `set_chat_permissions` function.
+[params]
 pub struct SetChatPermissionsParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
+
+    // A JSON-serialized object for new default chat permissions
     permissions ChatPermissions [required]
+
+    // Pass True if chat permissions are set independently. Otherwise, the can_send_other_messages and
+    // can_add_web_page_previews permissions will imply the can_send_messages, can_send_audios,
+    // can_send_documents, can_send_photos, can_send_videos, can_send_video_notes, and
+    // can_send_voice_notes permissions; the can_send_polls permission will imply the
+    // can_send_messages permission.
     use_independent_chat_permissions bool
+
 }
 
 // Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a
@@ -2507,9 +3410,12 @@ pub fn (ctx Context) set_chat_permissions(params SetChatPermissionsParams) !bool
 }
 
 // Params for the `export_chat_invite_link` function.
+[params]
 pub struct ExportChatInviteLinkParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to generate a new primary invite link for a chat; any previously generated primary link is revoked. The
@@ -2523,13 +3429,26 @@ pub fn (ctx Context) export_chat_invite_link(params ExportChatInviteLinkParams) 
 }
 
 // Params for the `create_chat_invite_link` function.
+[params]
 pub struct CreateChatInviteLinkParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
+    // Invite link name; 0-32 characters
     name string
-    expire_date int
-    member_limit int
+
+    // Point in time (Unix timestamp) when the link will expire
+    expire_date i64
+
+    // The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link;
+    // 1-99999
+    member_limit i64
+
+    // True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be
+    // specified
     creates_join_request bool
+
 }
 
 // Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this
@@ -2543,14 +3462,29 @@ pub fn (ctx Context) create_chat_invite_link(params CreateChatInviteLinkParams) 
 }
 
 // Params for the `edit_chat_invite_link` function.
+[params]
 pub struct EditChatInviteLinkParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
+    // The invite link to edit
     invite_link string [required]
+
+    // Invite link name; 0-32 characters
     name string
-    expire_date int
-    member_limit int
+
+    // Point in time (Unix timestamp) when the link will expire
+    expire_date i64
+
+    // The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link;
+    // 1-99999
+    member_limit i64
+
+    // True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be
+    // specified
     creates_join_request bool
+
 }
 
 // Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for
@@ -2564,10 +3498,15 @@ pub fn (ctx Context) edit_chat_invite_link(params EditChatInviteLinkParams) !Cha
 }
 
 // Params for the `revoke_chat_invite_link` function.
+[params]
 pub struct RevokeChatInviteLinkParams {
 pub mut:
+    // Unique identifier of the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
+    // The invite link to revoke
     invite_link string [required]
+
 }
 
 // Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is
@@ -2581,10 +3520,15 @@ pub fn (ctx Context) revoke_chat_invite_link(params RevokeChatInviteLinkParams) 
 }
 
 // Params for the `approve_chat_join_request` function.
+[params]
 pub struct ApproveChatJoinRequestParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    user_id int [required]
+
+    // Unique identifier of the target user
+    user_id i64 [required]
+
 }
 
 // Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must
@@ -2597,10 +3541,15 @@ pub fn (ctx Context) approve_chat_join_request(params ApproveChatJoinRequestPara
 }
 
 // Params for the `decline_chat_join_request` function.
+[params]
 pub struct DeclineChatJoinRequestParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    user_id int [required]
+
+    // Unique identifier of the target user
+    user_id i64 [required]
+
 }
 
 // Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must
@@ -2613,25 +3562,47 @@ pub fn (ctx Context) decline_chat_join_request(params DeclineChatJoinRequestPara
 }
 
 // Params for the `set_chat_photo` function.
+[params]
 pub struct SetChatPhotoParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
+    // New chat photo, uploaded using multipart/form-data
     photo InputFile [required]
+
 }
 
 // Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an
 // administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on
 // success.
 pub fn (ctx Context) set_chat_photo(params SetChatPhotoParams) !bool {
-    mut raw_json := ctx.request_multipart("setChatPhoto", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "chat_id": json.encode(params.chat_id),
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    form.files[key] << http.FileData{
+        filename: params.photo.filename,
+        content_type: params.photo.content_type,
+        data: params.photo.data,
+    }
+
+    mut raw_json := ctx.request_multipart("setChatPhoto", form)!
     res := json.decode(ApiResponse[bool], raw_json)!
     return res.result
 }
 
 // Params for the `delete_chat_photo` function.
+[params]
 pub struct DeleteChatPhotoParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in
@@ -2644,10 +3615,15 @@ pub fn (ctx Context) delete_chat_photo(params DeleteChatPhotoParams) !bool {
 }
 
 // Params for the `set_chat_title` function.
+[params]
 pub struct SetChatTitleParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
+    // New chat title, 1-128 characters
     title string [required]
+
 }
 
 // Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an
@@ -2661,10 +3637,15 @@ pub fn (ctx Context) set_chat_title(params SetChatTitleParams) !bool {
 }
 
 // Params for the `set_chat_description` function.
+[params]
 pub struct SetChatDescriptionParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
+    // New chat description, 0-255 characters
     description string
+
 }
 
 // Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in
@@ -2677,11 +3658,19 @@ pub fn (ctx Context) set_chat_description(params SetChatDescriptionParams) !bool
 }
 
 // Params for the `pin_chat_message` function.
+[params]
 pub struct PinChatMessageParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_id int [required]
+
+    // Identifier of a message to pin
+    message_id i64 [required]
+
+    // Pass True if it is not necessary to send a notification to all chat members about the new pinned message. Notifications
+    // are always disabled in channels and private chats.
     disable_notification bool
+
 }
 
 // Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot
@@ -2695,10 +3684,15 @@ pub fn (ctx Context) pin_chat_message(params PinChatMessageParams) !bool {
 }
 
 // Params for the `unpin_chat_message` function.
+[params]
 pub struct UnpinChatMessageParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_id int
+
+    // Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.
+    message_id i64
+
 }
 
 // Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the
@@ -2712,9 +3706,12 @@ pub fn (ctx Context) unpin_chat_message(params UnpinChatMessageParams) !bool {
 }
 
 // Params for the `unpin_all_chat_messages` function.
+[params]
 pub struct UnpinAllChatMessagesParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an
@@ -2728,9 +3725,12 @@ pub fn (ctx Context) unpin_all_chat_messages(params UnpinAllChatMessagesParams) 
 }
 
 // Params for the `leave_chat` function.
+[params]
 pub struct LeaveChatParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
@@ -2742,9 +3742,12 @@ pub fn (ctx Context) leave_chat(params LeaveChatParams) !bool {
 }
 
 // Params for the `get_chat` function.
+[params]
 pub struct GetChatParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to get up to date information about the chat (current name of the user for one-on-one conversations,
@@ -2757,9 +3760,12 @@ pub fn (ctx Context) get_chat(params GetChatParams) !Chat {
 }
 
 // Params for the `get_chat_administrators` function.
+[params]
 pub struct GetChatAdministratorsParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to get a list of administrators in a chat, which aren't bots. Returns an Array of ChatMember objects.
@@ -2771,24 +3777,32 @@ pub fn (ctx Context) get_chat_administrators(params GetChatAdministratorsParams)
 }
 
 // Params for the `get_chat_member_count` function.
+[params]
 pub struct GetChatMemberCountParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to get the number of members in a chat. Returns Int on success.
-pub fn (ctx Context) get_chat_member_count(params GetChatMemberCountParams) !int {
+pub fn (ctx Context) get_chat_member_count(params GetChatMemberCountParams) !i64 {
     mut body := json.encode(params)
     mut raw_json := ctx.request("getChatMemberCount", body)!
-    res := json.decode(ApiResponse[int], raw_json)!
+    res := json.decode(ApiResponse[i64], raw_json)!
     return res.result
 }
 
 // Params for the `get_chat_member` function.
+[params]
 pub struct GetChatMemberParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    user_id int [required]
+
+    // Unique identifier of the target user
+    user_id i64 [required]
+
 }
 
 // Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if
@@ -2801,10 +3815,15 @@ pub fn (ctx Context) get_chat_member(params GetChatMemberParams) !ChatMember {
 }
 
 // Params for the `set_chat_sticker_set` function.
+[params]
 pub struct SetChatStickerSetParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
+
+    // Name of the sticker set to be set as the group sticker set
     sticker_set_name string [required]
+
 }
 
 // Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this
@@ -2818,9 +3837,12 @@ pub fn (ctx Context) set_chat_sticker_set(params SetChatStickerSetParams) !bool 
 }
 
 // Params for the `delete_chat_sticker_set` function.
+[params]
 pub struct DeleteChatStickerSetParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this
@@ -2843,12 +3865,23 @@ pub fn (ctx Context) get_forum_topic_icon_stickers() ![]Sticker {
 }
 
 // Params for the `create_forum_topic` function.
+[params]
 pub struct CreateForumTopicParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
+
+    // Topic name, 1-128 characters
     name string [required]
-    icon_color int
+
+    // Color of the topic icon in RGB format. Currently, must be one of 7322096 (0x6FB9F0), 16766590 (0xFFD67E), 13338331
+    // (0xCB86DB), 9367192 (0x8EEE98), 16749490 (0xFF93B2), or 16478047 (0xFB6F5F)
+    icon_color i64
+
+    // Unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom
+    // emoji identifiers.
     icon_custom_emoji_id string
+
 }
 
 // Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to
@@ -2862,12 +3895,22 @@ pub fn (ctx Context) create_forum_topic(params CreateForumTopicParams) !ForumTop
 }
 
 // Params for the `edit_forum_topic` function.
+[params]
 pub struct EditForumTopicParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
-    message_thread_id int [required]
+
+    // Unique identifier for the target message thread of the forum topic
+    message_thread_id i64 [required]
+
+    // New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept
     name string
+
+    // New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed
+    // custom emoji identifiers. Pass an empty string to remove the icon. If not specified, the current icon will be kept
     icon_custom_emoji_id string
+
 }
 
 // Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the
@@ -2881,10 +3924,15 @@ pub fn (ctx Context) edit_forum_topic(params EditForumTopicParams) !bool {
 }
 
 // Params for the `close_forum_topic` function.
+[params]
 pub struct CloseForumTopicParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
-    message_thread_id int [required]
+
+    // Unique identifier for the target message thread of the forum topic
+    message_thread_id i64 [required]
+
 }
 
 // Use this method to close an open topic in a forum supergroup chat. The bot must be an administrator in the chat for
@@ -2898,10 +3946,15 @@ pub fn (ctx Context) close_forum_topic(params CloseForumTopicParams) !bool {
 }
 
 // Params for the `reopen_forum_topic` function.
+[params]
 pub struct ReopenForumTopicParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
-    message_thread_id int [required]
+
+    // Unique identifier for the target message thread of the forum topic
+    message_thread_id i64 [required]
+
 }
 
 // Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for
@@ -2915,10 +3968,15 @@ pub fn (ctx Context) reopen_forum_topic(params ReopenForumTopicParams) !bool {
 }
 
 // Params for the `delete_forum_topic` function.
+[params]
 pub struct DeleteForumTopicParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
-    message_thread_id int [required]
+
+    // Unique identifier for the target message thread of the forum topic
+    message_thread_id i64 [required]
+
 }
 
 // Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an
@@ -2932,10 +3990,15 @@ pub fn (ctx Context) delete_forum_topic(params DeleteForumTopicParams) !bool {
 }
 
 // Params for the `unpin_all_forum_topic_messages` function.
+[params]
 pub struct UnpinAllForumTopicMessagesParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
-    message_thread_id int [required]
+
+    // Unique identifier for the target message thread of the forum topic
+    message_thread_id i64 [required]
+
 }
 
 // Use this method to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat for
@@ -2948,10 +4011,15 @@ pub fn (ctx Context) unpin_all_forum_topic_messages(params UnpinAllForumTopicMes
 }
 
 // Params for the `edit_general_forum_topic` function.
+[params]
 pub struct EditGeneralForumTopicParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
+
+    // New topic name, 1-128 characters
     name string [required]
+
 }
 
 // Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in
@@ -2964,9 +4032,12 @@ pub fn (ctx Context) edit_general_forum_topic(params EditGeneralForumTopicParams
 }
 
 // Params for the `close_general_forum_topic` function.
+[params]
 pub struct CloseGeneralForumTopicParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator in the
@@ -2979,9 +4050,12 @@ pub fn (ctx Context) close_general_forum_topic(params CloseGeneralForumTopicPara
 }
 
 // Params for the `reopen_general_forum_topic` function.
+[params]
 pub struct ReopenGeneralForumTopicParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an administrator in the
@@ -2995,9 +4069,12 @@ pub fn (ctx Context) reopen_general_forum_topic(params ReopenGeneralForumTopicPa
 }
 
 // Params for the `hide_general_forum_topic` function.
+[params]
 pub struct HideGeneralForumTopicParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat
@@ -3011,9 +4088,12 @@ pub fn (ctx Context) hide_general_forum_topic(params HideGeneralForumTopicParams
 }
 
 // Params for the `unhide_general_forum_topic` function.
+[params]
 pub struct UnhideGeneralForumTopicParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     chat_id IntegerOrString [required]
+
 }
 
 // Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat
@@ -3026,13 +4106,28 @@ pub fn (ctx Context) unhide_general_forum_topic(params UnhideGeneralForumTopicPa
 }
 
 // Params for the `answer_callback_query` function.
+[params]
 pub struct AnswerCallbackQueryParams {
 pub mut:
+    // Unique identifier for the query to be answered
     callback_query_id string [required]
+
+    // Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
     text string
+
+    // If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to
+    // false.
     show_alert bool
+
+    // URL that will be opened by the user's client. If you have created a Game and accepted the conditions via @BotFather,
+    // specify the URL that opens your game - note that this will only work if the query comes from a callback_game button.
+    // Otherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.
     url string
-    cache_time int
+
+    // The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps
+    // will support caching starting in version 3.14. Defaults to 0.
+    cache_time i64
+
 }
 
 // Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the
@@ -3045,11 +4140,21 @@ pub fn (ctx Context) answer_callback_query(params AnswerCallbackQueryParams) !bo
 }
 
 // Params for the `set_my_commands` function.
+[params]
 pub struct SetMyCommandsParams {
 pub mut:
+    // A JSON-serialized list of bot commands to be set as the list of the bot's commands. At most 100 commands can be
+    // specified.
     commands []BotCommand [required]
+
+    // A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to
+    // BotCommandScopeDefault.
     scope BotCommandScope
+
+    // A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose
+    // language there are no dedicated commands
     language_code string
+
 }
 
 // Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns
@@ -3062,10 +4167,17 @@ pub fn (ctx Context) set_my_commands(params SetMyCommandsParams) !bool {
 }
 
 // Params for the `delete_my_commands` function.
+[params]
 pub struct DeleteMyCommandsParams {
 pub mut:
+    // A JSON-serialized object, describing scope of users for which the commands are relevant. Defaults to
+    // BotCommandScopeDefault.
     scope BotCommandScope
+
+    // A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given scope, for whose
+    // language there are no dedicated commands
     language_code string
+
 }
 
 // Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher
@@ -3078,10 +4190,15 @@ pub fn (ctx Context) delete_my_commands(params DeleteMyCommandsParams) !bool {
 }
 
 // Params for the `get_my_commands` function.
+[params]
 pub struct GetMyCommandsParams {
 pub mut:
+    // A JSON-serialized object, describing scope of users. Defaults to BotCommandScopeDefault.
     scope BotCommandScope
+
+    // A two-letter ISO 639-1 language code or an empty string
     language_code string
+
 }
 
 // Use this method to get the current list of the bot's commands for the given scope and user language. Returns an Array
@@ -3094,10 +4211,16 @@ pub fn (ctx Context) get_my_commands(params GetMyCommandsParams) ![]BotCommand {
 }
 
 // Params for the `set_my_name` function.
+[params]
 pub struct SetMyNameParams {
 pub mut:
+    // New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.
     name string
+
+    // A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose language there is no
+    // dedicated name.
     language_code string
+
 }
 
 // Use this method to change the bot's name. Returns True on success.
@@ -3109,9 +4232,12 @@ pub fn (ctx Context) set_my_name(params SetMyNameParams) !bool {
 }
 
 // Params for the `get_my_name` function.
+[params]
 pub struct GetMyNameParams {
 pub mut:
+    // A two-letter ISO 639-1 language code or an empty string
     language_code string
+
 }
 
 // Use this method to get the current bot name for the given user language. Returns BotName on success.
@@ -3123,10 +4249,16 @@ pub fn (ctx Context) get_my_name(params GetMyNameParams) !BotName {
 }
 
 // Params for the `set_my_description` function.
+[params]
 pub struct SetMyDescriptionParams {
 pub mut:
+    // New bot description; 0-512 characters. Pass an empty string to remove the dedicated description for the given language.
     description string
+
+    // A two-letter ISO 639-1 language code. If empty, the description will be applied to all users for whose language there
+    // is no dedicated description.
     language_code string
+
 }
 
 // Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns
@@ -3139,9 +4271,12 @@ pub fn (ctx Context) set_my_description(params SetMyDescriptionParams) !bool {
 }
 
 // Params for the `get_my_description` function.
+[params]
 pub struct GetMyDescriptionParams {
 pub mut:
+    // A two-letter ISO 639-1 language code or an empty string
     language_code string
+
 }
 
 // Use this method to get the current bot description for the given user language. Returns BotDescription on success.
@@ -3153,10 +4288,17 @@ pub fn (ctx Context) get_my_description(params GetMyDescriptionParams) !BotDescr
 }
 
 // Params for the `set_my_short_description` function.
+[params]
 pub struct SetMyShortDescriptionParams {
 pub mut:
+    // New short description for the bot; 0-120 characters. Pass an empty string to remove the dedicated short description for
+    // the given language.
     short_description string
+
+    // A two-letter ISO 639-1 language code. If empty, the short description will be applied to all users for whose language
+    // there is no dedicated short description.
     language_code string
+
 }
 
 // Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together
@@ -3169,9 +4311,12 @@ pub fn (ctx Context) set_my_short_description(params SetMyShortDescriptionParams
 }
 
 // Params for the `get_my_short_description` function.
+[params]
 pub struct GetMyShortDescriptionParams {
 pub mut:
+    // A two-letter ISO 639-1 language code or an empty string
     language_code string
+
 }
 
 // Use this method to get the current bot short description for the given user language. Returns BotShortDescription on
@@ -3184,10 +4329,15 @@ pub fn (ctx Context) get_my_short_description(params GetMyShortDescriptionParams
 }
 
 // Params for the `set_chat_menu_button` function.
+[params]
 pub struct SetChatMenuButtonParams {
 pub mut:
-    chat_id int
+    // Unique identifier for the target private chat. If not specified, default bot's menu button will be changed
+    chat_id i64
+
+    // A JSON-serialized object for the bot's new menu button. Defaults to MenuButtonDefault
     menu_button MenuButton
+
 }
 
 // Use this method to change the bot's menu button in a private chat, or the default menu button. Returns True on success.
@@ -3199,9 +4349,12 @@ pub fn (ctx Context) set_chat_menu_button(params SetChatMenuButtonParams) !bool 
 }
 
 // Params for the `get_chat_menu_button` function.
+[params]
 pub struct GetChatMenuButtonParams {
 pub mut:
-    chat_id int
+    // Unique identifier for the target private chat. If not specified, default bot's menu button will be returned
+    chat_id i64
+
 }
 
 // Use this method to get the current value of the bot's menu button in a private chat, or the default menu button.
@@ -3214,10 +4367,17 @@ pub fn (ctx Context) get_chat_menu_button(params GetChatMenuButtonParams) !MenuB
 }
 
 // Params for the `set_my_default_administrator_rights` function.
+[params]
 pub struct SetMyDefaultAdministratorRightsParams {
 pub mut:
+    // A JSON-serialized object describing new default administrator rights. If not specified, the default administrator
+    // rights will be cleared.
     rights ChatAdministratorRights
+
+    // Pass True to change the default administrator rights of the bot in channels. Otherwise, the default administrator
+    // rights of the bot for groups and supergroups will be changed.
     for_channels bool
+
 }
 
 // Use this method to change the default administrator rights requested by the bot when it's added as an administrator to
@@ -3231,9 +4391,13 @@ pub fn (ctx Context) set_my_default_administrator_rights(params SetMyDefaultAdmi
 }
 
 // Params for the `get_my_default_administrator_rights` function.
+[params]
 pub struct GetMyDefaultAdministratorRightsParams {
 pub mut:
+    // Pass True to get default administrator rights of the bot in channels. Otherwise, default administrator rights of the
+    // bot for groups and supergroups will be returned.
     for_channels bool
+
 }
 
 // Use this method to get the current default administrator rights of the bot. Returns ChatAdministratorRights on success.
@@ -3245,16 +4409,34 @@ pub fn (ctx Context) get_my_default_administrator_rights(params GetMyDefaultAdmi
 }
 
 // Params for the `edit_message_text` function.
+[params]
 pub struct EditMessageTextParams {
 pub mut:
+    // Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel
+    // (in the format @channelusername)
     chat_id IntegerOrString
-    message_id int
+
+    // Required if inline_message_id is not specified. Identifier of the message to edit
+    message_id i64
+
+    // Required if chat_id and message_id are not specified. Identifier of the inline message
     inline_message_id string
+
+    // New text of the message, 1-4096 characters after entities parsing
     text string [required]
+
+    // Mode for parsing entities in the message text. See formatting options for more details.
     parse_mode string
+
+    // A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
     entities []MessageEntity
+
+    // Disables link previews for links in this message
     disable_web_page_preview bool
+
+    // A JSON-serialized object for an inline keyboard.
     reply_markup InlineKeyboardMarkup
+
 }
 
 // Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited
@@ -3267,15 +4449,31 @@ pub fn (ctx Context) edit_message_text(params EditMessageTextParams) !MessageOrB
 }
 
 // Params for the `edit_message_caption` function.
+[params]
 pub struct EditMessageCaptionParams {
 pub mut:
+    // Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel
+    // (in the format @channelusername)
     chat_id IntegerOrString
-    message_id int
+
+    // Required if inline_message_id is not specified. Identifier of the message to edit
+    message_id i64
+
+    // Required if chat_id and message_id are not specified. Identifier of the inline message
     inline_message_id string
+
+    // New caption of the message, 0-1024 characters after entities parsing
     caption string
+
+    // Mode for parsing entities in the message caption. See formatting options for more details.
     parse_mode string
+
+    // A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     caption_entities []MessageEntity
+
+    // A JSON-serialized object for an inline keyboard.
     reply_markup InlineKeyboardMarkup
+
 }
 
 // Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited
@@ -3288,13 +4486,25 @@ pub fn (ctx Context) edit_message_caption(params EditMessageCaptionParams) !Mess
 }
 
 // Params for the `edit_message_media` function.
+[params]
 pub struct EditMessageMediaParams {
 pub mut:
+    // Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel
+    // (in the format @channelusername)
     chat_id IntegerOrString
-    message_id int
+
+    // Required if inline_message_id is not specified. Identifier of the message to edit
+    message_id i64
+
+    // Required if chat_id and message_id are not specified. Identifier of the inline message
     inline_message_id string
+
+    // A JSON-serialized object for a new media content of the message
     media InputMedia [required]
+
+    // A JSON-serialized object for a new inline keyboard.
     reply_markup InlineKeyboardMarkup
+
 }
 
 // Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album,
@@ -3310,17 +4520,38 @@ pub fn (ctx Context) edit_message_media(params EditMessageMediaParams) !MessageO
 }
 
 // Params for the `edit_message_live_location` function.
+[params]
 pub struct EditMessageLiveLocationParams {
 pub mut:
+    // Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel
+    // (in the format @channelusername)
     chat_id IntegerOrString
-    message_id int
+
+    // Required if inline_message_id is not specified. Identifier of the message to edit
+    message_id i64
+
+    // Required if chat_id and message_id are not specified. Identifier of the inline message
     inline_message_id string
+
+    // Latitude of new location
     latitude f64 [required]
+
+    // Longitude of new location
     longitude f64 [required]
+
+    // The radius of uncertainty for the location, measured in meters; 0-1500
     horizontal_accuracy f64
-    heading int
-    proximity_alert_radius int
+
+    // Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
+    heading i64
+
+    // The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and
+    // 100000 if specified.
+    proximity_alert_radius i64
+
+    // A JSON-serialized object for a new inline keyboard.
     reply_markup InlineKeyboardMarkup
+
 }
 
 // Use this method to edit live location messages. A location can be edited until its live_period expires or editing is
@@ -3334,12 +4565,22 @@ pub fn (ctx Context) edit_message_live_location(params EditMessageLiveLocationPa
 }
 
 // Params for the `stop_message_live_location` function.
+[params]
 pub struct StopMessageLiveLocationParams {
 pub mut:
+    // Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel
+    // (in the format @channelusername)
     chat_id IntegerOrString
-    message_id int
+
+    // Required if inline_message_id is not specified. Identifier of the message with live location to stop
+    message_id i64
+
+    // Required if chat_id and message_id are not specified. Identifier of the inline message
     inline_message_id string
+
+    // A JSON-serialized object for a new inline keyboard.
     reply_markup InlineKeyboardMarkup
+
 }
 
 // Use this method to stop updating a live location message before live_period expires. On success, if the message is not
@@ -3352,12 +4593,22 @@ pub fn (ctx Context) stop_message_live_location(params StopMessageLiveLocationPa
 }
 
 // Params for the `edit_message_reply_markup` function.
+[params]
 pub struct EditMessageReplyMarkupParams {
 pub mut:
+    // Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel
+    // (in the format @channelusername)
     chat_id IntegerOrString
-    message_id int
+
+    // Required if inline_message_id is not specified. Identifier of the message to edit
+    message_id i64
+
+    // Required if chat_id and message_id are not specified. Identifier of the inline message
     inline_message_id string
+
+    // A JSON-serialized object for an inline keyboard.
     reply_markup InlineKeyboardMarkup
+
 }
 
 // Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message,
@@ -3370,11 +4621,18 @@ pub fn (ctx Context) edit_message_reply_markup(params EditMessageReplyMarkupPara
 }
 
 // Params for the `stop_poll` function.
+[params]
 pub struct StopPollParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_id int [required]
+
+    // Identifier of the original message with the poll
+    message_id i64 [required]
+
+    // A JSON-serialized object for a new message inline keyboard.
     reply_markup InlineKeyboardMarkup
+
 }
 
 // Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
@@ -3386,10 +4644,15 @@ pub fn (ctx Context) stop_poll(params StopPollParams) !Poll {
 }
 
 // Params for the `delete_message` function.
+[params]
 pub struct DeleteMessageParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_id int [required]
+
+    // Identifier of the message to delete
+    message_id i64 [required]
+
 }
 
 // Use this method to delete a message, including service messages, with the following limitations:
@@ -3410,30 +4673,81 @@ pub fn (ctx Context) delete_message(params DeleteMessageParams) !bool {
 }
 
 // Params for the `send_sticker` function.
+[params]
 pub struct SendStickerParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Sticker to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an
+    // HTTP URL as a String for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP or .TGS sticker
+    // using multipart/form-data. More information on Sending Files: https://core.telegram.org/bots/api#sending-files.
+    // Video stickers can only be sent by a file_id. Animated stickers can't be sent via an HTTP URL.
     sticker InputFileOrString [required]
+
+    // Emoji associated with the sticker; only for just uploaded stickers
     emoji string
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to
+    // remove reply keyboard or to force a reply from the user.
     reply_markup InlineKeyboardMarkupOrReplyKeyboardMarkupOrReplyKeyboardRemoveOrForceReply
+
 }
 
 // Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
 pub fn (ctx Context) send_sticker(params SendStickerParams) !Message {
-    mut raw_json := ctx.request_multipart("sendSticker", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "chat_id": json.encode(params.chat_id),
+            "message_thread_id": params.message_thread_id.str(),
+            "emoji": params.emoji,
+            "disable_notification": params.disable_notification.str(),
+            "protect_content": params.protect_content.str(),
+            "reply_to_message_id": params.reply_to_message_id.str(),
+            "allow_sending_without_reply": params.allow_sending_without_reply.str(),
+            "reply_markup": json.encode(params.reply_markup),
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    if params.sticker is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.sticker.filename,
+            content_type: params.sticker.content_type,
+            data: params.sticker.data,
+        }
+    } else {
+        form.form["sticker"] = params.sticker as string
+    }
+
+    mut raw_json := ctx.request_multipart("sendSticker", form)!
     res := json.decode(ApiResponse[Message], raw_json)!
     return res.result
 }
 
 // Params for the `get_sticker_set` function.
+[params]
 pub struct GetStickerSetParams {
 pub mut:
+    // Name of the sticker set
     name string [required]
+
 }
 
 // Use this method to get a sticker set. On success, a StickerSet object is returned.
@@ -3445,9 +4759,12 @@ pub fn (ctx Context) get_sticker_set(params GetStickerSetParams) !StickerSet {
 }
 
 // Params for the `get_custom_emoji_stickers` function.
+[params]
 pub struct GetCustomEmojiStickersParams {
 pub mut:
+    // List of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
     custom_emoji_ids []string [required]
+
 }
 
 // Use this method to get information about custom emoji stickers by their identifiers. Returns an Array of Sticker
@@ -3460,31 +4777,73 @@ pub fn (ctx Context) get_custom_emoji_stickers(params GetCustomEmojiStickersPara
 }
 
 // Params for the `upload_sticker_file` function.
+[params]
 pub struct UploadStickerFileParams {
 pub mut:
-    user_id int [required]
+    // User identifier of sticker file owner
+    user_id i64 [required]
+
+    // A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format. See https://core.telegram.org/stickers for technical
+    // requirements. More information on Sending Files: https://core.telegram.org/bots/api#sending-files
     sticker InputFile [required]
+
+    // Format of the sticker, must be one of "static", "animated", "video"
     sticker_format string [required]
+
 }
 
 // Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods
 // (the file can be used multiple times). Returns the uploaded File on success.
 pub fn (ctx Context) upload_sticker_file(params UploadStickerFileParams) !File {
-    mut raw_json := ctx.request_multipart("uploadStickerFile", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "user_id": params.user_id.str(),
+            "sticker_format": params.sticker_format,
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    form.files[key] << http.FileData{
+        filename: params.sticker.filename,
+        content_type: params.sticker.content_type,
+        data: params.sticker.data,
+    }
+
+    mut raw_json := ctx.request_multipart("uploadStickerFile", form)!
     res := json.decode(ApiResponse[File], raw_json)!
     return res.result
 }
 
 // Params for the `create_new_sticker_set` function.
+[params]
 pub struct CreateNewStickerSetParams {
 pub mut:
-    user_id int [required]
+    // User identifier of created sticker set owner
+    user_id i64 [required]
+
+    // Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only English letters,
+    // digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in
+    // "_by_<bot_username>". <bot_username> is case insensitive. 1-64 characters.
     name string [required]
+
+    // Sticker set title, 1-64 characters
     title string [required]
+
+    // A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
     stickers []InputSticker [required]
+
+    // Format of stickers in the set, must be one of "static", "animated", "video"
     sticker_format string [required]
+
+    // Type of stickers in the set, pass "regular", "mask", or "custom_emoji". By default, a regular sticker set is created.
     sticker_type string
+
+    // Pass True if stickers in the sticker set must be repainted to the color of text when used in messages, the accent color
+    // if used as emoji status, white on chat photos, or another appropriate color based on context; for custom emoji sticker
+    // sets only
     needs_repainting bool
+
 }
 
 // Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created.
@@ -3497,11 +4856,19 @@ pub fn (ctx Context) create_new_sticker_set(params CreateNewStickerSetParams) !b
 }
 
 // Params for the `add_sticker_to_set` function.
+[params]
 pub struct AddStickerToSetParams {
 pub mut:
-    user_id int [required]
+    // User identifier of sticker set owner
+    user_id i64 [required]
+
+    // Sticker set name
     name string [required]
+
+    // A JSON-serialized object with information about the added sticker. If exactly the same sticker had already been added
+    // to the set, then the set isn't changed.
     sticker InputSticker [required]
+
 }
 
 // Use this method to add a new sticker to a set created by the bot. The format of the added sticker must match the format
@@ -3515,10 +4882,15 @@ pub fn (ctx Context) add_sticker_to_set(params AddStickerToSetParams) !bool {
 }
 
 // Params for the `set_sticker_position_in_set` function.
+[params]
 pub struct SetStickerPositionInSetParams {
 pub mut:
+    // File identifier of the sticker
     sticker string [required]
-    position int [required]
+
+    // New sticker position in the set, zero-based
+    position i64 [required]
+
 }
 
 // Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
@@ -3530,9 +4902,12 @@ pub fn (ctx Context) set_sticker_position_in_set(params SetStickerPositionInSetP
 }
 
 // Params for the `delete_sticker_from_set` function.
+[params]
 pub struct DeleteStickerFromSetParams {
 pub mut:
+    // File identifier of the sticker
     sticker string [required]
+
 }
 
 // Use this method to delete a sticker from a set created by the bot. Returns True on success.
@@ -3544,10 +4919,15 @@ pub fn (ctx Context) delete_sticker_from_set(params DeleteStickerFromSetParams) 
 }
 
 // Params for the `set_sticker_emoji_list` function.
+[params]
 pub struct SetStickerEmojiListParams {
 pub mut:
+    // File identifier of the sticker
     sticker string [required]
+
+    // A JSON-serialized list of 1-20 emoji associated with the sticker
     emoji_list []string [required]
+
 }
 
 // Use this method to change the list of emoji assigned to a regular or custom emoji sticker. The sticker must belong to a
@@ -3560,10 +4940,15 @@ pub fn (ctx Context) set_sticker_emoji_list(params SetStickerEmojiListParams) !b
 }
 
 // Params for the `set_sticker_keywords` function.
+[params]
 pub struct SetStickerKeywordsParams {
 pub mut:
+    // File identifier of the sticker
     sticker string [required]
+
+    // A JSON-serialized list of 0-20 search keywords for the sticker with total length of up to 64 characters
     keywords []string
+
 }
 
 // Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a
@@ -3576,10 +4961,16 @@ pub fn (ctx Context) set_sticker_keywords(params SetStickerKeywordsParams) !bool
 }
 
 // Params for the `set_sticker_mask_position` function.
+[params]
 pub struct SetStickerMaskPositionParams {
 pub mut:
+    // File identifier of the sticker
     sticker string [required]
+
+    // A JSON-serialized object with the position where the mask should be placed on faces. Omit the parameter to remove the
+    // mask position.
     mask_position MaskPosition
+
 }
 
 // Use this method to change the mask position of a mask sticker. The sticker must belong to a sticker set that was
@@ -3592,10 +4983,15 @@ pub fn (ctx Context) set_sticker_mask_position(params SetStickerMaskPositionPara
 }
 
 // Params for the `set_sticker_set_title` function.
+[params]
 pub struct SetStickerSetTitleParams {
 pub mut:
+    // Sticker set name
     name string [required]
+
+    // Sticker set title, 1-64 characters
     title string [required]
+
 }
 
 // Use this method to set the title of a created sticker set. Returns True on success.
@@ -3607,26 +5003,71 @@ pub fn (ctx Context) set_sticker_set_title(params SetStickerSetTitleParams) !boo
 }
 
 // Params for the `set_sticker_set_thumbnail` function.
+[params]
 pub struct SetStickerSetThumbnailParams {
 pub mut:
+    // Sticker set name
     name string [required]
-    user_id int [required]
+
+    // User identifier of the sticker set owner
+    user_id i64 [required]
+
+    // A .WEBP or .PNG image with the thumbnail, must be up to 128 kilobytes in size and have a width and height of exactly
+    // 100px, or a .TGS animation with a thumbnail up to 32 kilobytes in size (see
+    // https://core.telegram.org/stickers#animated-sticker-requirements for
+    // animated sticker technical requirements), or a WEBM video with the
+    // thumbnail up to 32 kilobytes in size; see
+    // https://core.telegram.org/stickers#video-sticker-requirements
+    // for video sticker technical requirements. Pass a file_id as a
+    // String to send a file that already exists on the Telegram
+    // servers, pass an HTTP URL as a String for Telegram to get
+    // a file from the Internet, or upload a new one using
+    // multipart/form-data. More information on Sending
+    // Files:
+    // https://core.telegram.org/bots/api#sending-files. Animated and video sticker set thumbnails can't be uploaded via HTTP
+    // URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
     thumbnail InputFileOrString
+
 }
 
 // Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the
 // format of the stickers in the set. Returns True on success.
 pub fn (ctx Context) set_sticker_set_thumbnail(params SetStickerSetThumbnailParams) !bool {
-    mut raw_json := ctx.request_multipart("setStickerSetThumbnail", params)!
+    mut form := http.PostMultipartFormConfig{
+        form: {
+            "name": params.name,
+            "user_id": params.user_id.str(),
+        },
+    }
+
+    key := random_string(10)
+    form.files[key] = []
+    if params.thumbnail is InputFile {
+        form.files[key] << http.FileData{
+            filename: params.thumbnail.filename,
+            content_type: params.thumbnail.content_type,
+            data: params.thumbnail.data,
+        }
+    } else {
+        form.form["thumbnail"] = params.thumbnail as string
+    }
+
+    mut raw_json := ctx.request_multipart("setStickerSetThumbnail", form)!
     res := json.decode(ApiResponse[bool], raw_json)!
     return res.result
 }
 
 // Params for the `set_custom_emoji_sticker_set_thumbnail` function.
+[params]
 pub struct SetCustomEmojiStickerSetThumbnailParams {
 pub mut:
+    // Sticker set name
     name string [required]
+
+    // Custom emoji identifier of a sticker from the sticker set; pass an empty string to drop the thumbnail and use the first
+    // sticker as the thumbnail.
     custom_emoji_id string
+
 }
 
 // Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.
@@ -3638,9 +5079,12 @@ pub fn (ctx Context) set_custom_emoji_sticker_set_thumbnail(params SetCustomEmoj
 }
 
 // Params for the `delete_sticker_set` function.
+[params]
 pub struct DeleteStickerSetParams {
 pub mut:
+    // Sticker set name
     name string [required]
+
 }
 
 // Use this method to delete a sticker set that was created by the bot. Returns True on success.
@@ -3652,14 +5096,29 @@ pub fn (ctx Context) delete_sticker_set(params DeleteStickerSetParams) !bool {
 }
 
 // Params for the `answer_inline_query` function.
+[params]
 pub struct AnswerInlineQueryParams {
 pub mut:
+    // Unique identifier for the answered query
     inline_query_id string [required]
+
+    // A JSON-serialized array of results for the inline query
     results []InlineQueryResult [required]
-    cache_time int
+
+    // The maximum amount of time in seconds that the result of the inline query may be cached on the server. Defaults to 300.
+    cache_time i64
+
+    // Pass True if results may be cached on the server side only for the user that sent the query. By default, results may be
+    // returned to any user who sends the same query.
     is_personal bool
+
+    // Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty
+    // string if there are no more results or if you don't support pagination. Offset length can't exceed 64 bytes.
     next_offset string
+
+    // A JSON-serialized object describing a button to be shown above inline query results
     button InlineQueryResultsButton
+
 }
 
 // Use this method to send answers to an inline query. On success, True is returned.
@@ -3672,10 +5131,15 @@ pub fn (ctx Context) answer_inline_query(params AnswerInlineQueryParams) !bool {
 }
 
 // Params for the `answer_web_app_query` function.
+[params]
 pub struct AnswerWebAppQueryParams {
 pub mut:
+    // Unique identifier for the query to be answered
     web_app_query_id string [required]
+
+    // A JSON-serialized object describing the message to be sent
     result InlineQueryResult [required]
+
 }
 
 // Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the
@@ -3688,36 +5152,104 @@ pub fn (ctx Context) answer_web_app_query(params AnswerWebAppQueryParams) !SentW
 }
 
 // Params for the `send_invoice` function.
+[params]
 pub struct SendInvoiceParams {
 pub mut:
+    // Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     chat_id IntegerOrString [required]
-    message_thread_id int
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Product name, 1-32 characters
     title string [required]
+
+    // Product description, 1-255 characters
     description string [required]
+
+    // Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
     payload string [required]
+
+    // Payment provider token, obtained via @BotFather
     provider_token string [required]
+
+    // Three-letter ISO 4217 currency code, see more on currencies
     currency string [required]
+
+    // Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax,
+    // bonus, etc.)
     prices []LabeledPrice [required]
-    max_tip_amount int
-    suggested_tip_amounts []int
+
+    // The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example,
+    // for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the
+    // number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0
+    max_tip_amount i64
+
+    // A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double).
+    // At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly
+    // increased order and must not exceed max_tip_amount.
+    suggested_tip_amounts []i64
+
+    // Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing
+    // multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies
+    // of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value
+    // used as the start parameter
     start_parameter string
+
+    // JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of
+    // required fields should be provided by the payment provider.
     provider_data string
+
+    // URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like
+    // it better when they see what they are paying for.
     photo_url string
-    photo_size int
-    photo_width int
-    photo_height int
+
+    // Photo size in bytes
+    photo_size i64
+
+    // Photo width
+    photo_width i64
+
+    // Photo height
+    photo_height i64
+
+    // Pass True if you require the user's full name to complete the order
     need_name bool
+
+    // Pass True if you require the user's phone number to complete the order
     need_phone_number bool
+
+    // Pass True if you require the user's email address to complete the order
     need_email bool
+
+    // Pass True if you require the user's shipping address to complete the order
     need_shipping_address bool
+
+    // Pass True if the user's phone number should be sent to provider
     send_phone_number_to_provider bool
+
+    // Pass True if the user's email address should be sent to provider
     send_email_to_provider bool
+
+    // Pass True if the final price depends on the shipping method
     is_flexible bool
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty,
+    // the first button must be a Pay button.
     reply_markup InlineKeyboardMarkup
+
 }
 
 // Use this method to send invoices. On success, the sent Message is returned.
@@ -3729,28 +5261,75 @@ pub fn (ctx Context) send_invoice(params SendInvoiceParams) !Message {
 }
 
 // Params for the `create_invoice_link` function.
+[params]
 pub struct CreateInvoiceLinkParams {
 pub mut:
+    // Product name, 1-32 characters
     title string [required]
+
+    // Product description, 1-255 characters
     description string [required]
+
+    // Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
     payload string [required]
+
+    // Payment provider token, obtained via BotFather
     provider_token string [required]
+
+    // Three-letter ISO 4217 currency code, see more on currencies
     currency string [required]
+
+    // Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax,
+    // bonus, etc.)
     prices []LabeledPrice [required]
-    max_tip_amount int
-    suggested_tip_amounts []int
+
+    // The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example,
+    // for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the
+    // number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0
+    max_tip_amount i64
+
+    // A JSON-serialized array of suggested amounts of tips in the smallest units of the currency (integer, not float/double).
+    // At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly
+    // increased order and must not exceed max_tip_amount.
+    suggested_tip_amounts []i64
+
+    // JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed description of
+    // required fields should be provided by the payment provider.
     provider_data string
+
+    // URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
     photo_url string
-    photo_size int
-    photo_width int
-    photo_height int
+
+    // Photo size in bytes
+    photo_size i64
+
+    // Photo width
+    photo_width i64
+
+    // Photo height
+    photo_height i64
+
+    // Pass True if you require the user's full name to complete the order
     need_name bool
+
+    // Pass True if you require the user's phone number to complete the order
     need_phone_number bool
+
+    // Pass True if you require the user's email address to complete the order
     need_email bool
+
+    // Pass True if you require the user's shipping address to complete the order
     need_shipping_address bool
+
+    // Pass True if the user's phone number should be sent to the provider
     send_phone_number_to_provider bool
+
+    // Pass True if the user's email address should be sent to the provider
     send_email_to_provider bool
+
+    // Pass True if the final price depends on the shipping method
     is_flexible bool
+
 }
 
 // Use this method to create a link for an invoice. Returns the created invoice link as String on success.
@@ -3762,12 +5341,23 @@ pub fn (ctx Context) create_invoice_link(params CreateInvoiceLinkParams) !string
 }
 
 // Params for the `answer_shipping_query` function.
+[params]
 pub struct AnswerShippingQueryParams {
 pub mut:
+    // Unique identifier for the query to be answered
     shipping_query_id string [required]
+
+    // Pass True if delivery to the specified address is possible and False if there are any problems (for example, if
+    // delivery to the specified address is not possible)
     ok bool [required]
+
+    // Required if ok is True. A JSON-serialized array of available shipping options.
     shipping_options []ShippingOption
+
+    // Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order
+    // (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.
     error_message string
+
 }
 
 // If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send
@@ -3781,11 +5371,22 @@ pub fn (ctx Context) answer_shipping_query(params AnswerShippingQueryParams) !bo
 }
 
 // Params for the `answer_pre_checkout_query` function.
+[params]
 pub struct AnswerPreCheckoutQueryParams {
 pub mut:
+    // Unique identifier for the query to be answered
     pre_checkout_query_id string [required]
+
+    // Specify True if everything is alright (goods are available, etc.) and the bot is ready to proceed with the order. Use
+    // False if there are any problems.
     ok bool [required]
+
+    // Required if ok is False. Error message in human readable form that explains the reason for failure to proceed with the
+    // checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out
+    // your payment details. Please choose a different color or garment!"). Telegram will display this message to the
+    // user.
     error_message string
+
 }
 
 // Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of
@@ -3799,10 +5400,15 @@ pub fn (ctx Context) answer_pre_checkout_query(params AnswerPreCheckoutQueryPara
 }
 
 // Params for the `set_passport_data_errors` function.
+[params]
 pub struct SetPassportDataErrorsParams {
 pub mut:
-    user_id int [required]
+    // User identifier
+    user_id i64 [required]
+
+    // A JSON-serialized array describing the errors
     errors []PassportElementError [required]
+
 }
 
 // Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to
@@ -3819,16 +5425,34 @@ pub fn (ctx Context) set_passport_data_errors(params SetPassportDataErrorsParams
 }
 
 // Params for the `send_game` function.
+[params]
 pub struct SendGameParams {
 pub mut:
-    chat_id int [required]
-    message_thread_id int
+    // Unique identifier for the target chat
+    chat_id i64 [required]
+
+    // Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    message_thread_id i64
+
+    // Short name of the game, serves as the unique identifier for the game. Set up your games via @BotFather.
     game_short_name string [required]
+
+    // Sends the message silently. Users will receive a notification with no sound.
     disable_notification bool
+
+    // Protects the contents of the sent message from forwarding and saving
     protect_content bool
-    reply_to_message_id int
+
+    // If the message is a reply, ID of the original message
+    reply_to_message_id i64
+
+    // Pass True if the message should be sent even if the specified replied-to message is not found
     allow_sending_without_reply bool
+
+    // A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty,
+    // the first button must launch the game.
     reply_markup InlineKeyboardMarkup
+
 }
 
 // Use this method to send a game. On success, the sent Message is returned.
@@ -3840,15 +5464,30 @@ pub fn (ctx Context) send_game(params SendGameParams) !Message {
 }
 
 // Params for the `set_game_score` function.
+[params]
 pub struct SetGameScoreParams {
 pub mut:
-    user_id int [required]
-    score int [required]
+    // User identifier
+    user_id i64 [required]
+
+    // New score, must be non-negative
+    score i64 [required]
+
+    // Pass True if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters
     force bool
+
+    // Pass True if the game message should not be automatically edited to include the current scoreboard
     disable_edit_message bool
-    chat_id int
-    message_id int
+
+    // Required if inline_message_id is not specified. Unique identifier for the target chat
+    chat_id i64
+
+    // Required if inline_message_id is not specified. Identifier of the sent message
+    message_id i64
+
+    // Required if chat_id and message_id are not specified. Identifier of the inline message
     inline_message_id string
+
 }
 
 // Use this method to set the score of the specified user in a game message. On success, if the message is not an inline
@@ -3862,12 +5501,21 @@ pub fn (ctx Context) set_game_score(params SetGameScoreParams) !MessageOrBoolean
 }
 
 // Params for the `get_game_high_scores` function.
+[params]
 pub struct GetGameHighScoresParams {
 pub mut:
-    user_id int [required]
-    chat_id int
-    message_id int
+    // Target user id
+    user_id i64 [required]
+
+    // Required if inline_message_id is not specified. Unique identifier for the target chat
+    chat_id i64
+
+    // Required if inline_message_id is not specified. Identifier of the sent message
+    message_id i64
+
+    // Required if chat_id and message_id are not specified. Identifier of the inline message
     inline_message_id string
+
 }
 
 // Use this method to get data for high score tables. Will return the score of the specified user and several of their

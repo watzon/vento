@@ -13,11 +13,12 @@ fn main() {
 	bot := &Bot {
 		Context: Context.new("TOKEN"),
 	}
-	println("Starting bot...")
-	res := bot.send_photo(SendPhotoParams{
-		chat_id: 0,
+
+	res := bot.send_photo(
+		chat_id: i64(-1001282897912),
 		photo:    "https://i.imgur.com/4M34hi2.jpg",
 		caption: "Hello, world!",
-	}) or { panic(err) }
+	)!
+
 	println(res)
 }

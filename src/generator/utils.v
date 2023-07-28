@@ -273,7 +273,7 @@ pub fn type_to_v(typ string) string {
 	return match typ {
 		"String" { "string" }
 		"Float" { "f64" }
-		"Integer" { "int" }
+		"Integer" { "i64" }
 		"Boolean" { "bool" }
 		"True" { "bool" }
 		else { typ }
