@@ -11,7 +11,7 @@ pub:
 
 fn main() {
 	bot := &Bot {
-		Context: Context.new("1575973705:AAGa1I1C3IfkPc60QvC_5ojGz-3hGDG6ddM"),
+		Context: Context.new("TOKEN"),
 	}
 	println("Starting bot...")
 	res := bot.send_photo(SendPhotoParams{
